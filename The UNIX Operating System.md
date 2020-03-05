@@ -7,8 +7,6 @@ A Unix system is made up of 3 layers:
   - Utilities: Programs build by people based on the system functions
 
 Advantages of UNIX System:
-
 1. Pipelining:
-⋅⋅⋅You can have properly indented paragraphs within list items. Notice the blank line above, and the leading spaces (at least one, but we'll use three here to also align the raw Markdown).
-
-⋅⋅⋅To have a line break without a paragraph, you will need to use two trailing spaces.⋅⋅
+> A bunch of programs connected end-to-end. Data flow through the programs for the final result
+ 
