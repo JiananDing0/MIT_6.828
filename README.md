@@ -16,3 +16,4 @@ First I learned the methods to push new files to GitHub. Several ideas are impor
 1. If there is some invisible .git folder under the files you want to uploaded other than the one you created by "git init", problems may happen. In order to solve this, you can first delete the hidden ".git" files and then "git add." again for re-upload.
 2. "Remote origin already exists" error: Run "git remote remove origin"
 3. Method get rid of ".DS_store" file: Run "git rm --cached .DS_Store"
+4. "Unrelated files" error: Run "git pull origin master --allow-unrelated-histories"
