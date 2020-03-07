@@ -2,9 +2,9 @@
 First I learned the methods to push new files to GitHub. Several ideas are important to the pushing process.
 
 ### Basic Methods:
-> 1. Open Github Desktop and clone the program you want to make changes to
-> 2. Open the terminal and access the folder
-> 3. Run the following commands for regular push
+1. Open Github Desktop and clone the program you want to make changes to
+2. Open the terminal and access the folder
+3. Run the following commands for regular push
   ```
   git init (Create .git file to the folder which is invisible)
   git add . (Add all files and folders under the directory for commit)
