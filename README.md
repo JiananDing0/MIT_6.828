@@ -1,4 +1,5 @@
 # MIT_6.828
+## GitHub Uploading
 First I learned the methods to push new files to GitHub. Several ideas are important to the pushing process.
 
 ### Basic Methods:
@@ -17,3 +18,5 @@ First I learned the methods to push new files to GitHub. Several ideas are impor
 2. "Remote origin already exists" error: Run "git remote remove origin"
 3. Method get rid of ".DS_store" file: Run "git rm --cached .DS_Store"
 4. "Unrelated files" error: Run "git pull origin master --allow-unrelated-histories"
+
+## Environment Settings
