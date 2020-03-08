@@ -48,8 +48,8 @@ Analyze the code below:
 * ```inb```: Composed of **in** and **b**, **in** means input from port. 
 * ```testb```: Composed of **test** and **b**, **test** means do bitwise AND to the two numbers. set Zero Flag (ZF) to 1 if the result is 0 and set to 0 otherwise.
 * ```jnz```: Same as ```jne```, jumps to the specified location if the Zero Flag (ZF) is cleared (0).
-###### Special numbers:
-* ```0x64```:Keyboard controller (Referenced from [website](https://www.win.tue.nl/~aeb/linux/kbd/scancodes-11.html))
+###### Special numbers: (Referenced from [website](https://www.win.tue.nl/~aeb/linux/kbd/scancodes-11.html))
+* ```0x64```: Keyboard controller
 ```
 The keyboard controller has an 8-bit status register. It can be inspected by the CPU by reading port 0x64.
 (Typically, it has the value 0x14: keyboard not locked, self-test completed.)
@@ -71,7 +71,7 @@ Set to 0 after power on reset. Set to 1 after successful completion of the keybo
 * Bit 0: Output buffer status
 0: Output buffer empty, don't read yet. 1: Output buffer full, can be read. (In the PS/2 situation bit 5 tells whether the available data is from keyboard or mouse.) This bit is cleared when port 0x60 is read.
 ```
-* ```0xd1```:
-* ```0xdf```:
-
-So basically this part first store the information of keyboard controller to register %al, and jump back to the start when Bit 1 stored in %al is equal to 1. In other words, once Bit 1 is set to 0, it continues to the rest part.
+* ```0xd1```: Write output port
+* ```0xdf```: Enable A20 address line
+###### Conclusion:
+So basically the first part of both 20.1 and 20.2 do the same thing. Check whether the input buffer of keyboard is full or not. If free, then continue to write either ```0xd1``` or ```0xdf```, if not, wait until it is free. Notice that ```0xd1``` can be regarded as a preparation for ```0xdf```.
