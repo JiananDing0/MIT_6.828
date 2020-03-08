@@ -54,4 +54,4 @@ Set to 0 after power on reset. Set to 1 after successful completion of the keybo
 ```testb```: Composed of **test** and **b**, **test** means do bitwise AND to the two numbers. set Zero Flag (ZF) to 1 if the result is 0 and set to 0 otherwise.
 ```jnz```: Same as ```jne```, jumps to the specified location if the Zero Flag (ZF) is cleared (0).
 
-So basically this part first store the information of keyboard controller to register %al, and jump once the Bit 1 stored in %al is equal to 0.
+So basically this part first store the information of keyboard controller to register %al, and jump back to the start when Bit 1 stored in %al is equal to 1. In other words, once Bit 1 is set to 0, it continues to the rest part.
