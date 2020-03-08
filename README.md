@@ -27,7 +27,7 @@ brew tap liudangyi/i386-jos-elf-gcc
 brew install i386-jos-elf-gcc i386-jos-elf-gdb
 ```
 However, it shows that the third command requires we have already installed gdb on our Mac, otherwise, the "make gdb" step will not be compiled. So we need to run the follwing command first:
-> brew install gdb
+```brew install gdb```
 And you can switch between different gdb by using:
 ```
 brew link gdb
