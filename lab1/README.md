@@ -23,13 +23,33 @@ According to the problem, we need to analyze the assembly code in boot.S and mai
 ##### boot.S
 Analyze the code below:
 ```
-seta20.1:
-  inb     $0x64,%al               # Wait for not busy
-  testb   $0x2,%al
-  jnz     seta20.1
+11  # Enable A20:
+12  #   For backwards compatibility with the earliest PCs, physical
+13  #   address line 20 is tied low, so that addresses higher than
+14  #   1MB wrap around to zero by default.  This code undoes this.
+15 seta20.1:
+16  inb     $0x64,%al               # Wait for not busy
+17  testb   $0x2,%al
+18  jnz     seta20.1
+
+19  movb    $0xd1,%al               # 0xd1 -> port 0x64
+20  outb    %al,$0x64
+
+21 seta20.2:
+22  inb     $0x64,%al               # Wait for not busy
+23  testb   $0x2,%al
+24  jnz     seta20.2
+
+25  movb    $0xdf,%al               # 0xdf -> port 0x60
+26  outb    %al,$0x60
 
 ```
-```inb```: Composed of **in** and **b**, **in** means input from port. Here, 0x64 represent:(Referenced from [website](https://www.win.tue.nl/~aeb/linux/kbd/scancodes-11.html))
+###### Assembly code:
+```inb```: Composed of **in** and **b**, **in** means input from port. 
+```testb```: Composed of **test** and **b**, **test** means do bitwise AND to the two numbers. set Zero Flag (ZF) to 1 if the result is 0 and set to 0 otherwise.
+```jnz```: Same as ```jne```, jumps to the specified location if the Zero Flag (ZF) is cleared (0).
+###### Special numbers:
+```0x64```:Keyboard controller (Referenced from [website](https://www.win.tue.nl/~aeb/linux/kbd/scancodes-11.html))
 ```
 The keyboard controller has an 8-bit status register. It can be inspected by the CPU by reading port 0x64.
 (Typically, it has the value 0x14: keyboard not locked, self-test completed.)
@@ -51,7 +71,8 @@ Set to 0 after power on reset. Set to 1 after successful completion of the keybo
 * Bit 0: Output buffer status
 0: Output buffer empty, don't read yet. 1: Output buffer full, can be read. (In the PS/2 situation bit 5 tells whether the available data is from keyboard or mouse.) This bit is cleared when port 0x60 is read.
 ```
-```testb```: Composed of **test** and **b**, **test** means do bitwise AND to the two numbers. set Zero Flag (ZF) to 1 if the result is 0 and set to 0 otherwise.
-```jnz```: Same as ```jne```, jumps to the specified location if the Zero Flag (ZF) is cleared (0).
+
+```0xd1```:
+```0xdf```:
 
 So basically this part first store the information of keyboard controller to register %al, and jump back to the start when Bit 1 stored in %al is equal to 1. In other words, once Bit 1 is set to 0, it continues to the rest part.
