@@ -29,9 +29,8 @@ seta20.1:
   jnz     seta20.1
 
 ```
-```inb```: Composed of **in** and **b**, **in** means input from port. Here, 0x64 represent:
+```inb```: Composed of **in** and **b**, **in** means input from port. Here, 0x64 represent:(Referenced from [website](https://www.win.tue.nl/~aeb/linux/kbd/scancodes-11.html))
 ```
-(Referenced from [website](https://www.win.tue.nl/~aeb/linux/kbd/scancodes-11.html))
 The keyboard controller has an 8-bit status register. It can be inspected by the CPU by reading port 0x64.
 (Typically, it has the value 0x14: keyboard not locked, self-test completed.)
 * Bit 7: Parity error
