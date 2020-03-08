@@ -72,6 +72,27 @@ Set to 0 after power on reset. Set to 1 after successful completion of the keybo
 0: Output buffer empty, don't read yet. 1: Output buffer full, can be read. (In the PS/2 situation bit 5 tells whether the available data is from keyboard or mouse.) This bit is cleared when port 0x60 is read.
 ```
 * ```0xd1```: Write output port
-* ```0xdf```: Enable A20 address line
+* ```0xdf```: Enable A20 address line (protected mode)
 ###### Conclusion:
 So basically the first part of both 20.1 and 20.2 do the same thing. Check whether the input buffer of keyboard is full or not. If free, then continue to write either ```0xd1``` or ```0xdf```, if not, wait until it is free. Notice that ```0xd1``` can be regarded as a preparation for ```0xdf```.
+----------------------------------------------------- --------------------------------------------------------------
+Then we analyze the code below:
+```
+# Switch from real to protected mode, using a bootstrap GDT
+  # and segment translation that makes virtual addresses
+  # identical to their physical addresses, so that the
+  # effective memory map does not change during the switch.
+  lgdt    gdtdesc
+  movl    %cr0, %eax
+  orl     $CR0_PE_ON, %eax
+  movl    %eax, %cr0
+ 
+  # Jump to next instruction, but in 32-bit code segment.
+  # Switches processor into 32-bit mode.
+  ljmp    $PROT_MODE_CSEG, $protcseg
+```
+###### Assembly code:
+* ```lgdt````: Store Global Description Table (GDT) information 
+* ```ljmp    $PROT_MODE_CSEG, $protcseg```: Switches processor into 32-bit mode.
+###### Conclusion:
+The processor start executing code in 32bit mode when ```ljmp    $PROT_MODE_CSEG, $protcseg``` is processed.
