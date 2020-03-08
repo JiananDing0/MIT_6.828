@@ -51,4 +51,7 @@ Set to 0 after power on reset. Set to 1 after successful completion of the keybo
 * Bit 0: Output buffer status
 0: Output buffer empty, don't read yet. 1: Output buffer full, can be read. (In the PS/2 situation bit 5 tells whether the available data is from keyboard or mouse.) This bit is cleared when port 0x60 is read.
 ```
-```testb```: Composed of **test** and **b**, **test** means do bitwise AND to the two numbers. 
+```testb```: Composed of **test** and **b**, **test** means do bitwise AND to the two numbers. set Zero Flag (ZF) to 1 if the result is 0 and set to 0 otherwise.
+```jnz```: Same as ```jne```, jumps to the specified location if the Zero Flag (ZF) is cleared (0).
+
+So basically this part first store the information of keyboard controller to register %al, and jump once the Bit 1 stored in %al is equal to 0.
