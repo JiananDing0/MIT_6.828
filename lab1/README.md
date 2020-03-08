@@ -9,7 +9,7 @@ In excecise 2, ```make gdb``` actually requires us to start 2 terminal pages. We
 ***
 ```
 After that, we can then run ```make gdb``` on the other terminal page, and follow the instructions to explore.
-Also, if the following error information shows up:
+Also, if the following error information shows up when you try to run "make gdb":
 ```
 gdb -n -x .gdbinit
 make: gdb: No such file or directory
