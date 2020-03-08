@@ -15,4 +15,4 @@ gdb -n -x .gdbinit
 make: gdb: No such file or directory
 make: *** [gdb] Error 1
 ```
-Please check the environment setting part of README.md on the first page of this repository.
+Please check the environment setting part of [README.md]() on the first page of this repository.
