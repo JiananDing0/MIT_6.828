@@ -111,16 +111,16 @@ The processor start executing code in 32bit mode when ```ljmp    $PROT_MODE_CSEG
 
 * Initialization:
 ```
-    int a[4];
-    int *b = malloc(16);
-    int *c;
-    int i;
+int a[4];
+int *b = malloc(16);
+int *c;
+int i;
 ```
 In this part, we can easily observe that variable ```a``` and variable ```b``` should correspond to the same amount of memory occupation: 16 bytes, which is 128 bits; variable ```c``` is an unintialized pointer. In addition, both ```a``` and ```c``` should be stored in stack as local variables, ```b``` should be stored in heap.
 
 * Code corresponds to the first printing statement is:
 ```
-    printf("1: a = %p, b = %p, c = %p\n", a, b, c);
+printf("1: a = %p, b = %p, c = %p\n", a, b, c);
 ```
 which results in:
 ```
@@ -128,4 +128,16 @@ which results in:
 ```
 In this part, we can observe ```c - a``` is 0x68
 
+* Code corresponds to the second printing statement is:
+```
+c = a;
+for (i = 0; i < 4; i++)
+    a[i] = 100 + i;
+c[0] = 200;
+printf("2: a[0] = %d, a[1] = %d, a[2] = %d, a[3] = %d\n", a[0], a[1], a[2], a[3]);
+```
+which results in:
+```
+2: a[0] = 200, a[1] = 101, a[2] = 102, a[3] = 103
+```
 
