@@ -98,7 +98,13 @@ Then we analyze the code below:
 The processor start executing code in 32bit mode when ```ljmp    $PROT_MODE_CSEG, $protcseg``` is processed.
 
 #### [Exercise 4](https://github.com/JiananDing0/MIT_6.828/edit/master/lab1/Exercise4):
-In order to solve this problem, we should first create a ```Makefile``` with the basic c++ command in order to compile the *pointer.c* file.
+* In order to solve this problem, we should first create a ```Makefile``` with the basic c++ command ```gcc pointers.c -o pointers```in order to compile the *pointer.c* file.
+* After it compiles, we can directly execute the file by "./pointers" and the following content shows up:
 ```
-gcc pointers.c -o pointers
+1: a = 0x7ffee62f18a0, b = 0x7ff560405860, c = 0x7ffee62f1908
+2: a[0] = 200, a[1] = 101, a[2] = 102, a[3] = 103
+3: a[0] = 200, a[1] = 300, a[2] = 301, a[3] = 302
+4: a[0] = 200, a[1] = 400, a[2] = 301, a[3] = 302
+5: a[0] = 200, a[1] = 128144, a[2] = 256, a[3] = 302
+6: a = 0x7ffee62f18a0, b = 0x7ffee62f18a4, c = 0x7ffee62f18a1
 ```
