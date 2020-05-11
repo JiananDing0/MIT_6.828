@@ -109,7 +109,7 @@ The processor start executing code in 32bit mode when ```ljmp    $PROT_MODE_CSEG
 6: a = 0x7ffee62f18a0, b = 0x7ffee62f18a4, c = 0x7ffee62f18a1
 ```
 
-* Initialization:
+1. Initialization:
 ```
 int a[4];
 int *b = malloc(16);
@@ -118,7 +118,7 @@ int i;
 ```
 In this part, we can easily observe that variable ```a``` and variable ```b``` should correspond to the same amount of memory occupation: 16 bytes, which is 128 bits; variable ```c``` is an unintialized pointer. In addition, both ```a``` and ```c``` should be stored in stack as local variables, ```b``` should be stored in heap.
 
-* Code corresponds to the first printing statement is:
+2. Code corresponds to the first printing statement is:
 ```
 printf("1: a = %p, b = %p, c = %p\n", a, b, c);
 ```
@@ -128,7 +128,7 @@ which results in:
 ```
 In this part, we can observe ```c - a``` is 0x68
 
-* Code corresponds to the second printing statement is:
+3. Code corresponds to the second printing statement is:
 ```
 c = a;
 for (i = 0; i < 4; i++)
@@ -142,7 +142,7 @@ which results in:
 ```
 This part seems to be normal. ```c=a```result in c and a point to a same array sturcture. As a result, we can directly change value in array ```a``` by using ```c[i] = n```
 
-* Code corresponds to the third printing statement is:
+4. Code corresponds to the third printing statement is:
 ```
 c[1] = 300;
 *(c + 2) = 301;
@@ -154,5 +154,5 @@ Which results in:
 3: a[0] = 200, a[1] = 300, a[2] = 301, a[3] = 302
 ```
 This part provide some useful application of pointer: 
-1. ```c[i]```is the same as ```i[c]```
-2. Pointer can be increamented in the unit of its data type. For example```c + 2``` result in increament of 8 because c is an integer pointer.
+* ```c[i]```is the same as ```i[c]```
+* Pointer can be increamented in the unit of its data type. For example```c + 2``` result in increament of 8 because c is an integer pointer.
