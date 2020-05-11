@@ -148,10 +148,46 @@ c[1] = 300;
 3[c] = 302;
 printf("3: a[0] = %d, a[1] = %d, a[2] = %d, a[3] = %d\n", a[0], a[1], a[2], a[3]);
 ```
-Which results in:
+which results in:
 ```
 3: a[0] = 200, a[1] = 300, a[2] = 301, a[3] = 302
 ```
 This part provide some useful application of pointer: 
 * ```c[i]```is the same as ```i[c]```
 * Pointer can be increamented in the unit of its data type. For example```c + 2``` result in increament of 8 because c is an integer pointer.
+
+#### 5. Code corresponds to the forth printing statement is:
+```
+c = c + 1;
+*c = 400;
+printf("4: a[0] = %d, a[1] = %d, a[2] = %d, a[3] = %d\n", a[0], a[1], a[2], a[3]);
+```
+which results in:
+```
+4: a[0] = 200, a[1] = 400, a[2] = 301, a[3] = 302
+```
+No explanations required here
+
+#### 6. Code corresponds to the fifth printing statement is:
+```
+c = (int *) ((char *) c + 1);
+*c = 500;
+printf("5: a[0] = %d, a[1] = %d, a[2] = %d, a[3] = %d\n", a[0], a[1], a[2], a[3]);
+```
+which results in:
+```
+5: a[0] = 200, a[1] = 128144, a[2] = 256, a[3] = 302
+```
+No explanations required here
+
+#### 7. Code corresponds to the sixth printing statement is:
+```
+b = (int *) a + 1;
+c = (int *) ((char *) a + 1);
+printf("6: a = %p, b = %p, c = %p\n", a, b, c);
+```
+which results in:
+```
+6: a = 0x7ffee62f18a0, b = 0x7ffee62f18a4, c = 0x7ffee62f18a1
+```
+No explanations required here
