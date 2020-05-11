@@ -141,3 +141,4 @@ which results in:
 2: a[0] = 200, a[1] = 101, a[2] = 102, a[3] = 103
 ```
 
+This part seems to be normal. ```c=a```result in c and a point to a same array sturcture. As a result, we can directly change value in array ```a``` by using ```c[i] = n```
