@@ -140,5 +140,19 @@ which results in:
 ```
 2: a[0] = 200, a[1] = 101, a[2] = 102, a[3] = 103
 ```
-
 This part seems to be normal. ```c=a```result in c and a point to a same array sturcture. As a result, we can directly change value in array ```a``` by using ```c[i] = n```
+
+* Code corresponds to the third printing statement is:
+```
+c[1] = 300;
+*(c + 2) = 301;
+3[c] = 302;
+printf("3: a[0] = %d, a[1] = %d, a[2] = %d, a[3] = %d\n", a[0], a[1], a[2], a[3]);
+```
+Which results in:
+```
+3: a[0] = 200, a[1] = 300, a[2] = 301, a[3] = 302
+```
+This part provide some useful application of pointer: 
+1. ```c[i]```is the same as ```i[c]```
+2. Pointer can be increamented in the unit of its data type. For example```c + 2``` result in increament of 8 because c is an integer pointer.
