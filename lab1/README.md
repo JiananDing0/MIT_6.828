@@ -1,8 +1,7 @@
 # Lab 1 Explanation
 This lab introduces the process of booting a PC. Please make sure you have read through the text and understand it.
 
-### Common problems
-#### Excecise 2:
+### Excecise 2:
 ```make gdb``` actually requires us to start 2 terminal pages. We need first run ```make qemu-gdb``` in one terminal page, until we see the following information shows up on the screen:
 ```
 ***
@@ -18,9 +17,9 @@ make: *** [gdb] Error 1
 ```
 Please check the **Environment Setting** part of [README.md](https://github.com/JiananDing0/MIT_6.828/blob/master/README.md) on the first page of this repository.
 
-#### Exercise 3:
+### Exercise 3:
 According to the problem, we need to analyze the assembly code in boot.S and main.c under the __boot__ folder. 
-##### boot.S
+#### boot.S
 Analyze the code below:
 ```
 11  # Enable A20:
@@ -44,11 +43,11 @@ Analyze the code below:
 26  outb    %al,$0x60
 
 ```
-###### Assembly code:
+##### Assembly code:
 * ```inb```: Composed of **in** and **b**, **in** means input from port. 
 * ```testb```: Composed of **test** and **b**, **test** means do bitwise AND to the two numbers. set Zero Flag (ZF) to 1 if the result is 0 and set to 0 otherwise.
 * ```jnz```: Same as ```jne```, jumps to the specified location if the Zero Flag (ZF) is cleared (0).
-###### Special numbers: (Referenced from [website](https://www.win.tue.nl/~aeb/linux/kbd/scancodes-11.html))
+##### Special numbers: (Referenced from [website](https://www.win.tue.nl/~aeb/linux/kbd/scancodes-11.html))
 * ```0x64```: Keyboard controller
 ```
 The keyboard controller has an 8-bit status register. It can be inspected by the CPU by reading port 0x64.
@@ -73,7 +72,7 @@ Set to 0 after power on reset. Set to 1 after successful completion of the keybo
 ```
 * ```0xd1```: Write output port
 * ```0xdf```: Enable A20 address line (protected mode)
-###### Conclusion:
+##### Conclusion:
 So basically the first part of both 20.1 and 20.2 do the same thing. Check whether the input buffer of keyboard is full or not. If free, then continue to write either ```0xd1``` or ```0xdf```, if not, wait until it is free. Notice that ```0xd1``` can be regarded as a preparation for ```0xdf```.
 ----------------------------------------------------- --------------------------------------------------------------
 Then we analyze the code below:
@@ -91,13 +90,13 @@ Then we analyze the code below:
   # Switches processor into 32-bit mode.
   ljmp    $PROT_MODE_CSEG, $protcseg
 ```
-###### Assembly code:
+##### Assembly code:
 * ```lgdt````: Store Global Description Table (GDT) information 
 * ```ljmp    $PROT_MODE_CSEG, $protcseg```: Switches processor into 32-bit mode.
-###### Conclusion:
+##### Conclusion:
 The processor start executing code in 32bit mode when ```ljmp    $PROT_MODE_CSEG, $protcseg``` is processed.
 
-#### [Exercise 4](https://github.com/JiananDing0/MIT_6.828/edit/master/lab1/Exercise4):
+### [Exercise 4](https://github.com/JiananDing0/MIT_6.828/edit/master/lab1/Exercise4):
 * In order to solve this problem, we should first create a ```Makefile``` with the basic c++ command ```gcc pointers.c -o pointers```in order to compile the *pointer.c* file.
 * After it compiles, we can directly execute the file by execute ```./pointers"``` and the following content shows up:
 ```
@@ -109,7 +108,7 @@ The processor start executing code in 32bit mode when ```ljmp    $PROT_MODE_CSEG
 6: a = 0x7ffee62f18a0, b = 0x7ffee62f18a4, c = 0x7ffee62f18a1
 ```
 
-1. Initialization:
+#### 1. Initialization:
 ```
 int a[4];
 int *b = malloc(16);
@@ -118,7 +117,7 @@ int i;
 ```
 In this part, we can easily observe that variable ```a``` and variable ```b``` should correspond to the same amount of memory occupation: 16 bytes, which is 128 bits; variable ```c``` is an unintialized pointer. In addition, both ```a``` and ```c``` should be stored in stack as local variables, ```b``` should be stored in heap.
 
-2. Code corresponds to the first printing statement is:
+#### 2. Code corresponds to the first printing statement is:
 ```
 printf("1: a = %p, b = %p, c = %p\n", a, b, c);
 ```
@@ -128,7 +127,7 @@ which results in:
 ```
 In this part, we can observe ```c - a``` is 0x68
 
-3. Code corresponds to the second printing statement is:
+#### 3. Code corresponds to the second printing statement is:
 ```
 c = a;
 for (i = 0; i < 4; i++)
@@ -142,7 +141,7 @@ which results in:
 ```
 This part seems to be normal. ```c=a```result in c and a point to a same array sturcture. As a result, we can directly change value in array ```a``` by using ```c[i] = n```
 
-4. Code corresponds to the third printing statement is:
+#### 4. Code corresponds to the third printing statement is:
 ```
 c[1] = 300;
 *(c + 2) = 301;
