@@ -191,3 +191,5 @@ which results in:
 6: a = 0x7ffee62f18a0, b = 0x7ffee62f18a4, c = 0x7ffee62f18a1
 ```
 No explanations required here
+
+### Excecise 5:
