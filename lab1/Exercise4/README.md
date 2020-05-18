@@ -68,7 +68,7 @@ which results in:
 ```
 4: a[0] = 200, a[1] = 400, a[2] = 301, a[3] = 302
 ```
-No explanations required here
+Here, variable c is regarded as an integer pointer. As a result, c + 1 result in an incremental of 4 on its value.
 
 #### 6. Code corresponds to the fifth printing statement is:
 ```
@@ -80,8 +80,40 @@ which results in:
 ```
 5: a[0] = 200, a[1] = 128144, a[2] = 256, a[3] = 302
 ```
-No explanations required here
-
+In this case, variable ```c``` is incremented by 1 instead of 4. So it overwrite both ```a[1]``` and ```a[2]```: (Assume storage of integer in **little endien** is more reasonable in comparison to big endien)
+1. Before write: 
+   * Original value at ```a[1]```, 400, can be represented as the 0x190, which is the following:
+    ---------------------------------------
+   |1001|0000|0000|0001|0000|0000|0000|0000|
+    ---------------------------------------
+   * Original value at ```a[2]```, 301, can be represented as the 0x12D, which is the following:
+    ---------------------------------------
+   |0010|1101|0000|0001|0000|0000|0000|0000|
+    ---------------------------------------
+2. On writing:
+   * c is incremented by 1, which corresponds to 8 bits. Now it points to:
+    ---------------------------------------
+   |1001|0000|0000|0001|0000|0000|0000|0000|
+    ---------^-----------------------------
+             |
+   * The value ```500``` can be written in 0x1F4, which corresponds to:
+    ---------------------------------------
+   |1111|0100|0000|0001|0000|0000|0000|0000|
+    ---------------------------------------
+   * Now we are trying to overwrite the number at the following place:
+              ---------------------------------------
+             |1111|0100|0000|0001|0000|0000|0000|0000|
+              ---------------------------------------
+    --------------------------------------- ---------------------------------------
+   |1001|0000|0000|0001|0000|0000|0000|0000|0010|1101|0000|0001|0000|0000|0000|0000|
+    --------------------------------------- ---------------------------------------
+3. After write:
+   According to the analysis above, we result in:
+    --------------------------------------- ---------------------------------------
+   |1001|0000|1111|0100|0000|0001|0000|0000|0000|0000|0000|0001|0000|0000|0000|0000|
+    --------------------------------------- ---------------------------------------
+   This can be writen as: ```0x0001F490``` and ```0x00000100```. As we know, the value ```128144``` can be written as ```0x1F490``` in hexadecimal. Correspondingly, the value ```256``` can be written as ```0x100``` in hex.
+   
 #### 7. Code corresponds to the sixth printing statement is:
 ```
 b = (int *) a + 1;
@@ -92,4 +124,4 @@ which results in:
 ```
 6: a = 0x7ffee62f18a0, b = 0x7ffee62f18a4, c = 0x7ffee62f18a1
 ```
-No explanations required here
+No explanations required here. Similar to above.
