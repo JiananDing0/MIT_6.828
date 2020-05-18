@@ -96,3 +96,4 @@ seta20.2:
   # Switch from real to protected mode, using a bootstrap GDT
   # and segment translation that makes virtual addresses
 ```
+Based on what have been provided in the assembly language file, we see something similar to what we get in exercise 3, such as ```set 20.1``` and ```set 20.2```. Also, the addresses presented in this chunk of code start from ```0x7c00```, which is the same as the address we set in ```boot/Makefrag```. As it been mentioned in the lab description, they use ```-Ttext 0x7C00``` to control the loading address of the system.
