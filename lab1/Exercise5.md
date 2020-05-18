@@ -125,5 +125,5 @@ start:
   movw    %ax,%ss             # -> Stack Segment
     7d08:       8e d0                   mov    %eax,%ss
 ```
-As we can observe here, all the content are still the same because the code never changes. However,the corresponding address of these lines of codes change.
+        As we can observe here, all the content are still the same because the code never changes. However,the corresponding address of these lines of codes change.
 * After that, we can recompile and debug ```qemu``` to see what different has been happened. (Please reference to **[Exercise 2](https://github.com/JiananDing0/MIT_6.828/blob/master/lab1/Exercise2.md)** to get related information on how to use GDB to debug the shell)
