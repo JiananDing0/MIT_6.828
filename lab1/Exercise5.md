@@ -4,7 +4,7 @@ In this exercise, we are required to observe several files and make some changes
 
 #### 1. Observe ```boot/Makefrag``` and ```obj/boot/boot.asm```:
 
-The content of ```boot/Makefrag``` are shown below:
+* The content of ```boot/Makefrag``` are shown below:
 ```
 # Makefile fragment for the JOS kernel.
 # This is NOT a complete makefile;
@@ -37,8 +37,7 @@ $(OBJDIR)/boot/boot: $(BOOT_OBJS)
         $(V)$(OBJCOPY) -S -O binary -j .text $@.out $@
         $(V)perl boot/sign.pl $(OBJDIR)/boot/boot
 ```
-
-Corrspondingly, the content of ```obj/boot/boot.asm``` are shown below:
+* Corrspondingly, the content of ```obj/boot/boot.asm``` are shown below:
 ```
 00007c00 <start>:
 .set CR0_PE_ON,      0x1         # protected mode enable flag
