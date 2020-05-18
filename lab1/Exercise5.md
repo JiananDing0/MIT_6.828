@@ -37,7 +37,8 @@ $(OBJDIR)/boot/boot: $(BOOT_OBJS)
         $(V)$(OBJCOPY) -S -O binary -j .text $@.out $@
         $(V)perl boot/sign.pl $(OBJDIR)/boot/boot
 ```
-* Corrspondingly, the content of ```obj/boot/boot.asm``` are shown below:
+
+* Corrspondingly, the starting part of content of ```obj/boot/boot.asm``` are shown below:
 ```
 00007c00 <start>:
 .set CR0_PE_ON,      0x1         # protected mode enable flag
@@ -96,4 +97,32 @@ seta20.2:
   # Switch from real to protected mode, using a bootstrap GDT
   # and segment translation that makes virtual addresses
 ```
-Based on what have been provided in the assembly language file, we see something similar to what we get in exercise 3, such as ```set 20.1``` and ```set 20.2```. Also, the addresses presented in this chunk of code start from ```0x7c00```, which is the same as the address we set in ```boot/Makefrag```. As it been mentioned in the lab description, they use ```-Ttext 0x7C00``` to control the loading address of the system.
+Based on what have been provided in the assembly language file, we see something similar to what we get in exercise 3, such as ```set 20.1``` and ```set 20.2```. Also, the addresses presented in this chunk of code start from ```0x7c00```, which is the same as the address we set in ```boot/Makefrag```. As it been mentioned in the lab description, they use ```-Ttext 0x7C00``` to control the loading address of the system to start at ```0x7c00```.
+
+#### 2. Make changes to ```0x7C00``` and recompile:
+* Now we try to modify the address presented in ```boot/Makefrag``` from ```0x7C00``` to ```0x7D00```.
+* After that, we run ```make clean``` then ```make``` again.
+* We can observe that some changes has been made in ```obj/boot/boot.asm```:
+```
+00007d00 <start>:
+.set CR0_PE_ON,      0x1         # protected mode enable flag
+
+.globl start
+start:
+  .code16                     # Assemble for 16-bit mode
+  cli                         # Disable interrupts
+    7d00:       fa                      cli
+  cld                         # String operations increment
+    7d01:       fc                      cld
+
+  # Set up the important data segment registers (DS, ES, SS).
+  xorw    %ax,%ax             # Segment number zero
+    7d02:       31 c0                   xor    %eax,%eax
+  movw    %ax,%ds             # -> Data Segment
+    7d04:       8e d8                   mov    %eax,%ds
+  movw    %ax,%es             # -> Extra Segment
+    7d06:       8e c0                   mov    %eax,%es
+  movw    %ax,%ss             # -> Stack Segment
+    7d08:       8e d0                   mov    %eax,%ss
+```
+As we can observe here, all the content are still the same because the code never changes. However,the corresponding address of these lines of codes change.
