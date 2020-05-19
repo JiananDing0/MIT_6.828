@@ -202,3 +202,6 @@ The target architecture is assumed to be i386
 ....
 ....
 ```
+**By comparing the two chunk of results above, we can easily observe that the code went wrong when it comes to ```0x7c2d```, where ```ljmp 0xb866, 0x87c32``` is called. In the code that is compiled incorrectly, the corresponding code is ```ljmp 0xb866, 0x87d32```**
+
+**As a result, we can consume that the link address in this case refers to the 0x7c00, which is converted to 0x87c32 in this case. If we make it to be something else, it will cause error.**
