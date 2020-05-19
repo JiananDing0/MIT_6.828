@@ -125,5 +125,80 @@ start:
   movw    %ax,%ss             # -> Stack Segment
     7d08:       8e d0                   mov    %eax,%ss
 ```
-^ As we can observe here, all the content are still the same because the code never changes. However,the corresponding address of these lines of codes change.
+As we can observe here, all the content are still the same because the code never changes. However,the corresponding address of these lines of codes change.
 * After that, we can recompile and debug ```qemu``` to see what different has been happened. (Please reference to **[Exercise 2](https://github.com/JiananDing0/MIT_6.828/blob/master/lab1/Exercise2.md)** to get related information on how to use GDB to debug the shell)
+When we set breakpoint to 0x7c00 as:
+```
+(gdb) b *0x7c00
+Breakpoint 1 at 0x7c00
+```
+and continue the program, we find the following content:
+```
+(gdb) c
+Continuing.
+[   0:7c00] => 0x7c00:	cli    
+
+Breakpoint 1, 0x00007c00 in ?? ()
+(gdb) si
+[   0:7c01] => 0x7c01:	cld    
+0x00007c01 in ?? ()
+(gdb) 
+[   0:7c02] => 0x7c02:	xor    %eax,%eax
+0x00007c02 in ?? ()
+(gdb) 
+[   0:7c04] => 0x7c04:	mov    %eax,%ds
+0x00007c04 in ?? ()
+....
+....
+(gdb) 
+[   0:7c2a] => 0x7c2a:	mov    %eax,%cr0
+0x00007c2a in ?? ()
+(gdb) 
+[   0:7c2d] => 0x7c2d:	ljmp   $0xb866,$0x87d32
+0x00007c2d in ?? ()
+(gdb) 
+[f000:e05b]    0xfe05b:	cmpw   $0xffb8,%cs:(%esi)
+0x0000e05b in ?? ()
+(gdb) 
+[f000:e062]    0xfe062:	jne    0xd241d121
+0x0000e062 in ?? ()
+(gdb) quit
+```
+Correspondingly, the output from gdb without any changes should be:
+```
+(gdb) c
+Continuing.
+[   0:7c00] => 0x7c00:	cli    
+
+Breakpoint 1, 0x00007c00 in ?? ()
+(gdb) si
+[   0:7c01] => 0x7c01:	cld    
+0x00007c01 in ?? ()
+(gdb) si
+[   0:7c02] => 0x7c02:	xor    %eax,%eax
+0x00007c02 in ?? ()
+(gdb) 
+[   0:7c04] => 0x7c04:	mov    %eax,%ds
+0x00007c04 in ?? ()
+(gdb) 
+....
+....
+(gdb) 
+[   0:7c2a] => 0x7c2a:	mov    %eax,%cr0
+0x00007c2a in ?? ()
+(gdb) 
+[   0:7c2d] => 0x7c2d:	ljmp   $0xb866,$0x87c32
+0x00007c2d in ?? ()
+(gdb) 
+The target architecture is assumed to be i386
+=> 0x7c32:	mov    $0x10,%ax
+0x00007c32 in ?? ()
+(gdb) 
+=> 0x7c36:	mov    %eax,%ds
+0x00007c36 in ?? ()
+(gdb) 
+=> 0x7c38:	mov    %eax,%es
+0x00007c38 in ?? ()
+....
+....
+```
