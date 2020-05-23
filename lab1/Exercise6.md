@@ -1,7 +1,7 @@
 ## Exercise 6
 Before we start this exercise, I am going to go through the code at ```boot/main.c``` to better understand this lab. The link to corresponding code is [here](https://github.com/JiananDing0/MIT_6.828/blob/master/lab1/boot/main.c). 
 
-### Understand ```readsect``` function (line 106-124):
+#### Understand ```readsect``` function (line 106-124):
 First, according to the parameters passed into this function, we know that ```dst``` is the physical address the sectors will be copied to, and ```offset``` represents the origin of the sectors.  
   
 As we can observe, there is a bunch of ```outb``` functions from line 112 to line 117. 
@@ -22,7 +22,7 @@ Then loop back to waiting for the next IRQ (or poll again -- see next note) for 
 ```
 As a result, we can temporarily regard this part as something fixed in hardware programming, we just send signals and call functions to do that. Overall, the main point of this chunk of code is to get a sector loaded. 
 
-### Understand ```readseg``` function (line 72-96):
+#### Understand ```readseg``` function (line 72-96):
 Combined with the comments above each line of code, we are able to understand the code line by line:
 * Line 79:
 ```
@@ -50,6 +50,20 @@ while (pa < end_pa) {
 ```
 A simple use of loop. We just call ```readsect``` function we have just analyzed repeatedly. One thing we have to be careful here is that ```end_pa``` might not be an integer multiplication of 512, also, the ```pa``` has been rounded down. As a result, we might read more data then we expected (more than the value of ```count```) in this function. Just like what has been described, the read is processed by sectors instead of bytes.  
 
-### Understand ```bootmain``` function (line 39-67):
+#### Understand ```bootmain``` function (line 39-67):
 This function can be easily understand by the comment above it.
 
+### Observation:
+When set break point at ```0x7c00```, where the boot loader is first reached.
+```
+(gdb) x/8x 0x00100000
+0x100000:	0x00000000	0x00000000	0x00000000	0x00000000
+0x100010:	0x00000000	0x00000000	0x00000000	0x00000000
+```
+When set break point at ```0x0x10000c```, where the kernel is first loaded.
+```
+(gdb) x/8x 0x00100000
+0x100000:	0x1badb002	0x00000000	0xe4524ffe	0x7205c766
+0x100010:	0x34000004	0x7000b812	0x220f0011	0xc0200fd8
+```
+As we can observe, the 8 words are different when boot loader is first loaded and the kernel is first loaded.
