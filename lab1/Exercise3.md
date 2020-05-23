@@ -72,7 +72,7 @@ Then we analyze the code below:
   ljmp    $PROT_MODE_CSEG, $protcseg
 ```
 ##### Assembly code:
-* ```lgdt````: Store Global Description Table (GDT) information 
+* ```lgdt```: Store Global Description Table (GDT) information 
 * ```ljmp    $PROT_MODE_CSEG, $protcseg```: Switches processor into 32-bit mode.
 ##### Conclusion:
 The processor start executing code in 32bit mode when ```ljmp    $PROT_MODE_CSEG, $protcseg``` is processed. At physical address 0x7c2d.
