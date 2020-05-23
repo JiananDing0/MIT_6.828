@@ -2,7 +2,7 @@
 Before we start this exercise, I am going to go through the code at ```boot/main.c``` to better understand this lab. The link to corresponding code is [here](https://github.com/JiananDing0/MIT_6.828/blob/master/lab1/boot/main.c). 
 
 ### Understand ```readsect``` function (line 106-124):
-First, according to the parameters passed into this function, we know that ```dst``` is the physical address the sectors will be copied to, and ```offset``` is the value represent the number of sectors from the start of kernel file, where the origin of the files come from.  
+First, according to the parameters passed into this function, we know that ```dst``` is the physical address the sectors will be copied to, and ```offset``` represents the origin of the sectors.  
   
 As we can observe, there is a bunch of ```outb``` functions from line 112 to line 117. 
 * ```outb``` function: Based on descriptions from [Linux Manual Page](http://man7.org/linux/man-pages/man2/outb.2.html), the definition of ```outb``` function can be either ```void outb(unsigned char value, unsigned short int port)``` or ```void outb(unsigned short int port, unsigned char value)```. In this case, the latter seems to be more reasonable.
@@ -20,10 +20,35 @@ Wait for an IRQ or poll.
 Transfer 256 16-bit values, a uint16_t at a time, into your buffer from I/O port 0x1F0. (In assembler, REP INSW works well for this.)
 Then loop back to waiting for the next IRQ (or poll again -- see next note) for each successive sector.
 ```
-As a result, we can temporarily regard this part as something fixed in hardware programming, we just send signals and call functions to do that. Overall, the main point of this chunk of code is to get the sectors loaded. 
+As a result, we can temporarily regard this part as something fixed in hardware programming, we just send signals and call functions to do that. Overall, the main point of this chunk of code is to get a sector loaded. 
 
 ### Understand ```readseg``` function (line 72-96):
-
+Combined with the comments above each line of code, we are able to understand the code line by line:
+* Line 79:
+```
+// round down to sector boundary
+pa &= ~(SECTSIZE - 1);
+```
+A common trick of bit manipulation has been used here. Bit masks remove the LSB of this number. As a result, we get the ```pa``` value which is an integer multiple of 512.
+* Line 82:
+```
+// translate from bytes to sectors, and kernel starts at sector 1
+offset = (offset / SECTSIZE) + 1;
+```
+Just use integer division to get the corresponding sector number.
+* Line 87-95(While Loop):
+```
+while (pa < end_pa) {
+  // Since we haven't enabled paging yet and we're using
+  // an identity segment mapping (see boot.S), we can
+  // use physical addresses directly.  This won't be the
+  // case once JOS enables the MMU.
+  readsect((uint8_t*) pa, offset);
+  pa += SECTSIZE;
+  offset++;
+}
+```
+A simple use of loop. We just call ```readsect``` function we have just analyzed repeatedly. One thing we have to be careful here is that ```end_pa``` might not be an integer multiplication of 512, also, the ```pa``` has been rounded down. As a result, we might read more data then we expected (more than the value of ```count```) in this function. Just like what has been described, the read is processed by sectors instead of bytes.  
 
 ### Understand ```bootmain``` function (line 39-67):
 This function can be easily understand by the comment above it.
