@@ -42,6 +42,6 @@ Bit	Name	Full Name	              Description
 16	WP	  Write protect	          When set, the CPU can't write to read-only pages when privilege level is 0
 18	AM	  Alignment mask	        Alignment check enabled if AM set, AC flag (in EFLAGS register) set, and privilege level is 3
 29	NW	  Not-write through	      Globally enables/disable write-through caching
-30	CD	  Cache disable	Globally enables/disable the memory cache
-31	PG	  Paging	If 1, enable paging and use the § CR3 register, else disable paging.
+30	CD	  Cache disable	          Globally enables/disable the memory cache
+31	PG	  Paging	                If 1, enable paging and use the § CR3 register, else disable paging.
 ```
