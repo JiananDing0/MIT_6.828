@@ -40,7 +40,7 @@ int is_transmit_empty() {
    return inb(PORT + 5) & 0x20;
 }
 ```
-We can figure out the usage of ```!(inb(COM1 + COM_LSR) & COM_LSR_TXRDY)``` based on the function above. We can determine whether the transmit is empty or not by using it. When it is not empty, ```!(inb(COM1 + COM_LSR) & COM_LSR_TXRDY)``` = 1, 0 otherwise. As a result, the for-loop will execute **at least** 12000 times to wait for the transmit to become empty.  
+	We can figure out the usage of ```!(inb(COM1 + COM_LSR) & COM_LSR_TXRDY)``` based on the function above. We can determine whether the transmit is empty or not by using it. When it is not empty, ```!(inb(COM1 + COM_LSR) & COM_LSR_TXRDY)``` = 1, 0 otherwise. As a result, the for-loop will execute **at least** 12000 times to wait for the transmit to become empty.  
 3. ```outb(COM1 + COM_TX, c)``` is the same as ```outb(0x3F8, c)```. Based on the code below, we can regard this as write a single character.
 ```
 void write_serial(char a) {
