@@ -152,5 +152,5 @@ Based on what we have discussed above, my understanding to the whole printing pr
 		* ```putch```(a function that uses ```cputchar``` function we have just discussed)
 		* ```cnt```(local integer variable passed as a reference)
 		* ```fmt```(variable represent the content that is going to displayed)
-		* ```ap```(the ```va_list``` typed variable) 
-	   to ```vprintfmt```
+		* ```ap```(the ```va_list``` typed variable)  
+	to ```vprintfmt```
