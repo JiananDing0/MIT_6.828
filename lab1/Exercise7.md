@@ -30,7 +30,7 @@ In order to explain this condition, we should first figure out the corresponding
 ```
 orl	$(CR0_PE|CR0_PG|CR0_WP), %eax
 ```
-This line of code located right before the line we are going to comment out. As a result, I reference from [Wikipedia](https://en.wikipedia.org/wiki/Control_register) and get the following information:
+This line of code located right before the line we are going to comment out. As a result, I reference from [Wikipedia](https://en.wikipedia.org/wiki/Control_register) and get the following information about CRs(control registers):
 ```
 Bit Name  Full Name               Description
 0   PE    Protected Mode Enable   If 1, system is in protected mode, else system is in real mode
@@ -45,3 +45,4 @@ Bit Name  Full Name               Description
 30  CD    Cache disable           Globally enables/disable the memory cache
 31  PG    Paging                  If 1, enable paging and use the § CR3 register, else disable paging.
 ```
+Based on those information, we have stored information of activating **protected mode, paging and write protect** into the register ```$eax```. And right after that, we move the value in register back to ```$cr0```, the control register. As a result, some changes happen right after that. **Paging** is the one we are trying to find, it creates some duplication from low memory to high memory. 
