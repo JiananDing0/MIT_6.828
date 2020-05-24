@@ -145,3 +145,12 @@ Based on definition of ```cprintf```, the parameters are passed into the funtion
 	* ```va_start(a, b)```: In this function, ```a``` should be in type ```va_list```, which is a special type for infinite input argument. ```b``` should be the first argument passed into the ```printf``` function. So in case of ```kernel/printf.c```, ```a``` refers to ```ap```, which is a ```va_list``` typed variable that is initialized in ```cprintf``` and further used in ```vcprintf```. ```b``` refers to ```fmt```, which is the first parameter passed into this function.
 	* ```va_arg(a, type)```: The main usage of this function is to get the parameter in ```...``` part from ```printf``` function. This function requires 2 parameters. ```a``` is a ```va_list``` typed parameter and ```type``` should be the corresponding type of the input. For example, when ```cprintf("%d, %c", a, b)``` is called, the ```va_arg``` function will be called twice. The first time should be ```va_arg(a, int)``` and the second time should be ```va_arg(a, char)```. This function is frequently called in ```lib/printfmt.c```.
 	* ```va_end(a)```: The parameter ```a``` refers to the ```va_list``` typed parameter we frequently used. This function ends the reading process of ```va_start``` and ```va_arg```. When it is called, it means all the arguments passed into ```cprintf``` function have already been correctly received and showed on screen. In that case, the ```va_list``` typed variable is not needed anymore.
+2. The whole ```cprintf``` process
+Based on what we have discussed above, my understanding to the whole printing process is below:
+	1. ```cprintf``` initializes a ```va_list``` typed variable to receive all the parameters after the fixed string.
+	2. ```cprintf``` calls ```vcprintf``` function, which passed 
+		* ```putch```(a function that uses ```cputchar``` function we have just discussed)
+		* ```cnt```(local integer variable passed as a reference)
+		* ```fmt```(variable represent the content that is going to displayed)
+		* ```ap```(the ```va_list``` typed variable) 
+	   to ```vprintfmt```
