@@ -153,4 +153,4 @@ Based on what we have discussed above, my understanding to the whole printing pr
 		* ```cnt```: local integer variable passed as a reference.
 		* ```fmt```: variable represent the content that is going to displayed.
 		* ```ap```: the ```va_list``` typed variable.
-	3. ```vprintfmt``` function frequently uses 
+	3. ```vprintfmt``` function will keep calling ```putch```, which calls ```vcputchar```, output all the characters in the string to different memory and devices by using the ```cons_putc``` function. However, once the "%" character is reached, the function will go to **switch** case, get the value by using ```va_arg``` function from the ```va_list```. Then output those value to corresponding devices or memory by using ```cons_putc```. The function keep doing the same thing until the whole string is went through.
