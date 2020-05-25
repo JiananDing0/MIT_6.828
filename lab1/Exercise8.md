@@ -148,9 +148,9 @@ Based on definition of ```cprintf```, the parameters are passed into the funtion
 2. The whole ```cprintf``` process
 Based on what we have discussed above, my understanding to the whole printing process is below:
 	1. ```cprintf``` initializes a ```va_list``` typed variable to receive all the parameters after the fixed string.
-	2. ```cprintf``` calls ```vcprintf``` function, which passed 
-		* ```putch```(a function that uses ```cputchar``` function we have just discussed)
-		* ```cnt```(local integer variable passed as a reference)
-		* ```fmt```(variable represent the content that is going to displayed)
-		* ```ap```(the ```va_list``` typed variable)  
-	to ```vprintfmt```
+	2. ```cprintf``` calls ```vcprintf``` function, which passed the following to ```vprintfmt``` function:
+		* ```putch```: a function that uses ```cputchar``` function we have just discussed.
+		* ```cnt```: local integer variable passed as a reference.
+		* ```fmt```: variable represent the content that is going to displayed.
+		* ```ap```: the ```va_list``` typed variable.
+	3. ```vprintfmt``` function frequently uses 
