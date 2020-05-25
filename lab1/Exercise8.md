@@ -154,3 +154,24 @@ Based on what we have discussed above, my understanding to the whole printing pr
 		* ```fmt```: variable represent the content that is going to displayed.
 		* ```ap```: the ```va_list``` typed variable.
 	3. ```vprintfmt``` function will keep calling ```putch```, which calls ```vcputchar```, output all the characters in the string to different memory and devices by using the ```cons_putc``` function. However, once the "%" character is reached, the function will go to **switch** case, get the value by using ```va_arg``` function from the ```va_list```. Then output those value to corresponding devices or memory by using ```cons_putc```. The function keep doing the same thing until the whole string is went through.
+  
+### 4. Compile the following code:
+```
+unsigned int i = 0x00646c72;
+cprintf("H%x Wo%s", 57616, &i);
+```
+We can simply add these lines of code to ```kern/monitor.c``` to compile because that file output the prompt lines. After the compile, we can see the output is ```He110 World```.
+* ```57616``` converted to ```e110```  
+Based on the code of dealing with ```case x:``` in ```lib/printfmt.c```
+```
+case 'x':
+	num = getuint(&ap, lflag);
+	base = 16;
+number:
+	printnum(putch, putdat, num, base, width, padc);
+	break;
+```
+We can observe that it directly set base to 16, and get the corresponding value from ```va_list``` **ap**. After that, it print the number in base 16 with the help of ```putch``` function and other variables. As we know, ```57626``` is equal to ```0xE110``` in hex. So it seems reasonable to get the output like that.
+  
+* ```0x00646c72``` converted to ```rld```  
+```%s``` means string. In C programming language, string is passed as an array of characters, that explains why we need to use ```&i``` instead of ```i``` directly in the printing statement.
