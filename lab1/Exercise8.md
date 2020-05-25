@@ -186,3 +186,11 @@ Based on the code of dealing with strings, the program simply read the informati
   
 As a result, what we see is `r`, `l`, `d` and `\0` instead of `\0`, `d`, `l` and `r`. Little endien **will not** influence the actual value of variables, it is just a different storage method.
   
+### 5. Compile the following code:
+```
+cprintf("x=%d y=%d", 3);
+```
+
+This question is straightforward. The answer should be random because only 1 value is provided in ```va_list```, the other value will be randomly selected from the memory. So the final output should also be random.
+
+Here we finish exercise 8.
