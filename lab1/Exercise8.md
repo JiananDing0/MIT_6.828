@@ -174,4 +174,13 @@ number:
 We can observe that it directly set base to 16, and get the corresponding value from ```va_list``` **ap**. After that, it print the number in base 16 with the help of ```putch``` function and other variables. As we know, ```57626``` is equal to ```0xE110``` in hex. So it seems reasonable to get the output like that.
   
 * ```0x00646c72``` converted to ```rld```  
-```%s``` means string. In C programming language, string is passed as an array of characters, that explains why we need to use ```&i``` instead of ```i``` directly in the printing statement.
+```%s``` means string. In C programming language, string is passed as an array of characters, that explains why we need to use ```&i``` instead of ```i``` directly in the printing statement.  
+Based on the code of dealing with strings, the program simply read the information bytes by bytes. As a result, ```0x00646c72``` will be converted to `\0`, `d`, `l` and `r`, which is reverse from ```rld``` we have seen. As we have discussed in [Exercise 4](https://github.com/JiananDing0/MIT_6.828/edit/master/lab1/Exercise4), the numbers are stored in **little endien** in our operating system. In fact, the number ```0x00646c72``` is stored as:
+```
+ ---------------------------------------
+|0111|0010|0110|1100|0110|0100|0000|0000|
+ ---------------------------------------
+|   7|   2|   6|   c|   6|   4|   0|   0|
+```
+  
+As a result, what we see is `r`, `l`, `d` and `\0` instead of `\0`, `d`, `l` and `r`. **Little endien** will not influence the actual value of variables, it is just a different storage method.
