@@ -215,11 +215,19 @@ Type 'help' for a list of commands.
 ```
 The first line is absolutely not correct in this case. And we can find the corresponding code at ```kern/init.c``` and ```lib/printfmt.c```:
 * ```kern/init.c``` line 36: The corresponding code for printing statements
-	```cprintf("6828 decimal is %o octal!\n", 6828);```
+```
+cprintf("6828 decimal is %o octal!\n", 6828);
+```
 * ```lib/printfmt.c``` line 207-212 (before modification): The corresponding code of dealing with octal printings
-```putch('X', putdat);
-putch('X', putdat);
-putch('X', putdat);
-break;```
+```
+// (unsigned) octal
+case 'o':
+	// Replace this with your code.
+	putch('X', putdat);
+	putch('X', putdat);
+	putch('X', putdat);
+	break;
+```
+So it is obvious that we need to change the code at this part to make it work. And it is easy to do. Now the code for this part has already been modified. Please take a look.
 
 Here we finish exercise 8.
