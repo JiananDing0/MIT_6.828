@@ -230,4 +230,4 @@ case 'o':
 ```
 So it is obvious that we need to change the code at this part to make it work. And it is easy to do. Now the code for this part has already been modified. Please take a look.
 
-Here we finish exercise 8.
+##### Here we finish exercise 8.
