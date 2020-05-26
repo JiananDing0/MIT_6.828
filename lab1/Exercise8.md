@@ -193,4 +193,33 @@ cprintf("x=%d y=%d", 3);
 
 This question is straightforward. The answer should be random because only 1 value is provided in ```va_list```, the other value will be randomly selected from the memory. So the final output should also be random.
 
+### Extra challenge:
+
+When we boot our operating system, we can see that some fixed output is always get printed:
+```
+6828 decimal is XXX octal!
+entering test_backtrace 5
+entering test_backtrace 4
+entering test_backtrace 3
+entering test_backtrace 2
+entering test_backtrace 1
+entering test_backtrace 0
+leaving test_backtrace 0
+leaving test_backtrace 1
+leaving test_backtrace 2
+leaving test_backtrace 3
+leaving test_backtrace 4
+leaving test_backtrace 5
+Welcome to the JOS kernel monitor!
+Type 'help' for a list of commands.
+```
+The first line is absolutely not correct in this case. And we can find the corresponding code at ```kern/init.c``` and ```lib/printfmt.c```:
+* ```kern/init.c``` line 36: The corresponding code for printing statements
+	```cprintf("6828 decimal is %o octal!\n", 6828);```
+* ```lib/printfmt.c``` line 207-212 (before modification): The corresponding code of dealing with octal printings
+```putch('X', putdat);
+putch('X', putdat);
+putch('X', putdat);
+break;```
+
 Here we finish exercise 8.
