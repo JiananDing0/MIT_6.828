@@ -50,6 +50,7 @@ Based on those information, we have stored information of activating **protected
 In order to better understand the paging, we also need to take a look at [inc/memlayout.h](https://github.com/JiananDing0/MIT_6.828/edit/master/lab1/inc/memlayout.h), which includes some memory information: 
 * ```RELOC(x)``` is defined as ```((x) - KERNBASE)``` in ```kern/entry.S```
 * ```KERNBASE``` is defined as ```0xF0000000``` in ```inc/memlayout.h```  
+  
 As a result, after the following code compiles, the paging from 0x100000 to 0xf0100000 is constructed. 
 ```
 movl	$(RELOC(entry_pgdir)), %eax
