@@ -14,3 +14,5 @@ This lab introduces the process of booting a PC. Please make sure you have read 
 ### [Exercise 7](https://github.com/JiananDing0/MIT_6.828/blob/master/lab1/Exercise7.md)
 
 ### [Exercise 8](https://github.com/JiananDing0/MIT_6.828/blob/master/lab1/Exercise8.md)
+
+### [Exercise 9](https://github.com/JiananDing0/MIT_6.828/blob/master/lab1/Exercise9.md)

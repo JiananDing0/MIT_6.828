@@ -46,3 +46,12 @@ Bit Name  Full Name               Description
 31  PG    Paging                  If 1, enable paging and use the § CR3 register, else disable paging.
 ```
 Based on those information, we have stored information of activating **protected mode, paging and write protect** into the register ```$eax```. And right after that, we move the value in register back to ```$cr0```, the control register. As a result, some changes happen right after that. **Paging** is the one we are trying to find, it creates some duplication from low memory to high memory. 
+  
+In order to better understand the paging, we also need to take a look at [inc/memlayout.h](https://github.com/JiananDing0/MIT_6.828/edit/master/lab1/inc/memlayout.h), which includes some memory information: 
+* ```RELOC(x)``` is defined as ```((x) - KERNBASE)``` in ```kern/entry.S```
+* ```KERNBASE``` is defined as ```0xF0000000``` in ```inc/memlayout.h```  
+  
+As a result, after the following code compiles, the paging from 0x100000 to 0xf0100000 is constructed. 
+```
+movl	$(RELOC(entry_pgdir)), %eax
+```
