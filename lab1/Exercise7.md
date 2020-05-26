@@ -46,3 +46,75 @@ Bit Name  Full Name               Description
 31  PG    Paging                  If 1, enable paging and use the § CR3 register, else disable paging.
 ```
 Based on those information, we have stored information of activating **protected mode, paging and write protect** into the register ```$eax```. And right after that, we move the value in register back to ```$cr0```, the control register. As a result, some changes happen right after that. **Paging** is the one we are trying to find, it creates some duplication from low memory to high memory. 
+  
+In order to better understand the paging, we also need to take a look at [inc/memlayout.h](https://github.com/JiananDing0/MIT_6.828/edit/master/lab1/inc/memlayout.h), which includes some memory information: 
+* ```RELOC(x)``` is defined as ```((x) - KERNBASE)``` in ```kern/entry.S```
+* ```KERNBASE``` is defined as ```0xF0000000``` in ```inc/memlayout.h```
+As a result, after the following code compiles, the paging from 0x100000 to 0xf0100000 is constructed. 
+```
+movl	$(RELOC(entry_pgdir)), %eax
+```
+  
+  
+Memory layout in the comment in ```inc/memlayout.h``` file
+```
+/*
+ * Virtual memory map:                                Permissions
+ *                                                    kernel/user
+ *
+ *    4 Gig -------->  +------------------------------+
+ *                     |                              | RW/--
+ *                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *                     :              .               :
+ *                     :              .               :
+ *                     :              .               :
+ *                     |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~| RW/--
+ *                     |                              | RW/--
+ *                     |   Remapped Physical Memory   | RW/--
+ *                     |                              | RW/--
+ *    KERNBASE, ---->  +------------------------------+ 0xf0000000      --+
+ *    KSTACKTOP        |     CPU0's Kernel Stack      | RW/--  KSTKSIZE   |
+ *                     | - - - - - - - - - - - - - - -|                   |
+ *                     |      Invalid Memory (*)      | --/--  KSTKGAP    |
+ *                     +------------------------------+                   |
+ *                     |     CPU1's Kernel Stack      | RW/--  KSTKSIZE   |
+ *                     | - - - - - - - - - - - - - - -|                 PTSIZE
+ *                     |      Invalid Memory (*)      | --/--  KSTKGAP    |
+ *                     +------------------------------+                   |
+ *                     :              .               :                   |
+ *                     :              .               :                   |
+ *    MMIOLIM ------>  +------------------------------+ 0xefc00000      --+
+ *                     |       Memory-mapped I/O      | RW/--  PTSIZE
+ * ULIM, MMIOBASE -->  +------------------------------+ 0xef800000
+ *                     |  Cur. Page Table (User R-)   | R-/R-  PTSIZE
+ *    UVPT      ---->  +------------------------------+ 0xef400000
+ *                     |          RO PAGES            | R-/R-  PTSIZE
+ *    UPAGES    ---->  +------------------------------+ 0xef000000
+ *                     |           RO ENVS            | R-/R-  PTSIZE
+ * UTOP,UENVS ------>  +------------------------------+ 0xeec00000
+ * UXSTACKTOP -/       |     User Exception Stack     | RW/RW  PGSIZE
+ *                     +------------------------------+ 0xeebff000
+ *                     |       Empty Memory (*)       | --/--  PGSIZE
+ *    USTACKTOP  --->  +------------------------------+ 0xeebfe000
+ *                     |      Normal User Stack       | RW/RW  PGSIZE
+ *                     +------------------------------+ 0xeebfd000
+ *                     |                              |
+ *                     |                              |
+ *                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *                     .                              .
+ *                     .                              .
+ *                     .                              .
+ *                     |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
+ *                     |     Program Data & Heap      |
+ *    UTEXT -------->  +------------------------------+ 0x00800000
+ *    PFTEMP ------->  |       Empty Memory (*)       |        PTSIZE
+ *                     |                              |
+ *    UTEMP -------->  +------------------------------+ 0x00400000      --+
+ *                     |       Empty Memory (*)       |                   |
+ *                     | - - - - - - - - - - - - - - -|                   |
+ *                     |  User STAB Data (optional)   |                 PTSIZE
+ *    USTABDATA ---->  +------------------------------+ 0x00200000        |
+ *                     |       Empty Memory (*)       |                   |
+ *    0 ------------>  +------------------------------+                 --+
+ *
+ ```
