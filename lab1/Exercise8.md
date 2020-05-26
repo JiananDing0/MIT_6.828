@@ -228,6 +228,9 @@ case 'o':
 	putch('X', putdat);
 	break;
 ```
-So it is obvious that we need to change the code at this part to make it work. And it is easy to do. Now the code for this part has already been modified. Please take a look.
+So it is obvious that we need to change the code at this part to make it work. And it is easy to do. Now the code for this part has already been modified. Please take a look. And now the sentence looks like:
+```
+6828 decimal is 15254 octal!
+```
 
 ##### Here we finish exercise 8.
