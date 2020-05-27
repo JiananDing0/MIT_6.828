@@ -111,3 +111,47 @@ On the other hand, based on memory layout in the comment from ```inc/memlayout.h
  *     there if desired.  JOS user programs map pages temporarily at UTEMP.
  */
 ```
+#### Close analyze to ```kern/entry.S```:
+```
+# Load the physical address of entry_pgdir into cr3.  entry_pgdir
+	# is defined in entrypgdir.c.
+	movl	$(RELOC(entry_pgdir)), %eax
+	movl	%eax, %cr3
+	# Turn on paging.
+	movl	%cr0, %eax
+	orl	$(CR0_PE|CR0_PG|CR0_WP), %eax
+	movl	%eax, %cr0
+
+	# Now paging is enabled, but we're still running at a low EIP
+	# (why is this okay?).  Jump up above KERNBASE before entering
+	# C code.
+	mov	$relocated, %eax
+	jmp	*%eax
+relocated:
+
+	# Clear the frame pointer register (EBP)
+	# so that once we get into debugging C code,
+	# stack backtraces will be terminated properly.
+	movl	$0x0,%ebp			# nuke frame pointer
+
+	# Set the stack pointer
+	movl	$(bootstacktop),%esp
+
+	# now to C code
+	call	i386_init
+
+	# Should never get here, but in case we do, just spin.
+spin:	jmp	spin
+
+
+.data
+###################################################################
+# boot stack
+###################################################################
+	.p2align	PGSHIFT		# force page alignment
+	.globl		bootstack
+bootstack:
+	.space		KSTKSIZE
+	.globl		bootstacktop   
+bootstacktop:
+```
