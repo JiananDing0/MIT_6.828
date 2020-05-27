@@ -60,4 +60,5 @@ movl	$(bootstacktop),%esp
 Here, we can observe that 0 is stored to ```%ebp```. On the next line, ```$bootstacktop```, which is an unknown value for now, is stored to ```%esp```. 
 * 	```%ebp```: EBP is the base pointer from current stackframe.
 * 	```%esp```: ESP is the current stack pointer.
+  
 Also, we know that the rule of stack and related ideas are all fixed in CPU design. In other words, once we initialize the values for ```%ebp``` and ```%esp```, the system will automatically deal with the following jobs: adding or removing content from the stack as different function call happens.
