@@ -1,7 +1,7 @@
 ## Exercise 9
-According to ```kern/entry.S```. which is the very first chunk of code reached by our program when kernel is first loaded, the program first do a bunch of things. At the end of this file, it calls the function ```i386_init``` located in file ```kern/init.c```.
+Before we start, I will first go through the overall logic on how is the code compiles. According to ```kern/entry.S```. which is the very first file reached by our program when our kernel is loaded, the program first do a bunch of things. At the end of this file, it calls the function ```i386_init``` located in file ```kern/init.c```.
   
-It obvious that C-code is more readable in comparison to assembly code, so we first take a look at this file. 
+We first take a look at the C file. 
 ```
 void
 i386_init(void)
@@ -43,115 +43,21 @@ test_backtrace(int x)
 ```
 And mon_backtrace is something we need to implement.  
   
-After that, it finally calls a function ```monitor```, which corresponds to the ```k>``` thing we find when the system loads. At this point, the whole system has been activated and no other thing is required. So at this point, we can infer that the initialization of the stack is located in ```kern/entry.S```
-  
-On the other hand, based on memory layout in the comment from ```inc/memlayout.h``` file below, we know that CPU0's stack is located right below the ```KERNBASE```. And we also have CPU1's stack.
+After that, it finally calls a function ```monitor```, which corresponds to the ```k>``` thing we find when the system loads. At this point, the whole system has been activated and no other thing is required. 
+
+#### Close analyze to how stack is boot:
+After analyze the whole process, we should take a close look on how the stack is booted. 
+##### First, the code refresh the value stored in ```%esp``` and ```%ebp``` by using the following code:
 ```
-/*
- * Virtual memory map:                                Permissions
- *                                                    kernel/user
- *
- *    4 Gig -------->  +------------------------------+
- *                     |                              | RW/--
- *                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *                     :              .               :
- *                     :              .               :
- *                     :              .               :
- *                     |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~| RW/--
- *                     |                              | RW/--
- *                     |   Remapped Physical Memory   | RW/--
- *                     |                              | RW/--
- *    KERNBASE, ---->  +------------------------------+ 0xf0000000      --+
- *    KSTACKTOP        |     CPU0's Kernel Stack      | RW/--  KSTKSIZE   |
- *                     | - - - - - - - - - - - - - - -|                   |
- *                     |      Invalid Memory (*)      | --/--  KSTKGAP    |
- *                     +------------------------------+                   |
- *                     |     CPU1's Kernel Stack      | RW/--  KSTKSIZE   |
- *                     | - - - - - - - - - - - - - - -|                 PTSIZE
- *                     |      Invalid Memory (*)      | --/--  KSTKGAP    |
- *                     +------------------------------+                   |
- *                     :              .               :                   |
- *                     :              .               :                   |
- *    MMIOLIM ------>  +------------------------------+ 0xefc00000      --+
- *                     |       Memory-mapped I/O      | RW/--  PTSIZE
- * ULIM, MMIOBASE -->  +------------------------------+ 0xef800000
- *                     |  Cur. Page Table (User R-)   | R-/R-  PTSIZE
- *    UVPT      ---->  +------------------------------+ 0xef400000
- *                     |          RO PAGES            | R-/R-  PTSIZE
- *    UPAGES    ---->  +------------------------------+ 0xef000000
- *                     |           RO ENVS            | R-/R-  PTSIZE
- * UTOP,UENVS ------>  +------------------------------+ 0xeec00000
- * UXSTACKTOP -/       |     User Exception Stack     | RW/RW  PGSIZE
- *                     +------------------------------+ 0xeebff000
- *                     |       Empty Memory (*)       | --/--  PGSIZE
- *    USTACKTOP  --->  +------------------------------+ 0xeebfe000
- *                     |      Normal User Stack       | RW/RW  PGSIZE
- *                     +------------------------------+ 0xeebfd000
- *                     |                              |
- *                     |                              |
- *                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *                     .                              .
- *                     .                              .
- *                     .                              .
- *                     |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
- *                     |     Program Data & Heap      |
- *    UTEXT -------->  +------------------------------+ 0x00800000
- *    PFTEMP ------->  |       Empty Memory (*)       |        PTSIZE
- *                     |                              |
- *    UTEMP -------->  +------------------------------+ 0x00400000      --+
- *                     |       Empty Memory (*)       |                   |
- *                     | - - - - - - - - - - - - - - -|                   |
- *                     |  User STAB Data (optional)   |                 PTSIZE
- *    USTABDATA ---->  +------------------------------+ 0x00200000        |
- *                     |       Empty Memory (*)       |                   |
- *    0 ------------>  +------------------------------+                 --+
- *
- * (*) Note: The kernel ensures that "Invalid Memory" is *never* mapped.
- *     "Empty Memory" is normally unmapped, but user programs may map pages
- *     there if desired.  JOS user programs map pages temporarily at UTEMP.
- */
+# Clear the frame pointer register (EBP)
+# so that once we get into debugging C code,
+# stack backtraces will be terminated properly.
+movl	$0x0,%ebp			# nuke frame pointer
+
+# Set the stack pointer
+movl	$(bootstacktop),%esp
 ```
-#### Close analyze to ```kern/entry.S```:
-```
-# Load the physical address of entry_pgdir into cr3.  entry_pgdir
-	# is defined in entrypgdir.c.
-	movl	$(RELOC(entry_pgdir)), %eax
-	movl	%eax, %cr3
-	# Turn on paging.
-	movl	%cr0, %eax
-	orl	$(CR0_PE|CR0_PG|CR0_WP), %eax
-	movl	%eax, %cr0
-
-	# Now paging is enabled, but we're still running at a low EIP
-	# (why is this okay?).  Jump up above KERNBASE before entering
-	# C code.
-	mov	$relocated, %eax
-	jmp	*%eax
-relocated:
-
-	# Clear the frame pointer register (EBP)
-	# so that once we get into debugging C code,
-	# stack backtraces will be terminated properly.
-	movl	$0x0,%ebp			# nuke frame pointer
-
-	# Set the stack pointer
-	movl	$(bootstacktop),%esp
-
-	# now to C code
-	call	i386_init
-
-	# Should never get here, but in case we do, just spin.
-spin:	jmp	spin
-
-
-.data
-###################################################################
-# boot stack
-###################################################################
-	.p2align	PGSHIFT		# force page alignment
-	.globl		bootstack
-bootstack:
-	.space		KSTKSIZE
-	.globl		bootstacktop   
-bootstacktop:
-```
+Here, we can observe that 0 is stored to ```%ebp```. On the next line, ```$bootstacktop```, which is an unknown value for now, is stored to ```%esp```. 
+* 	```%ebp```: EBP is the base pointer from current stackframe.
+* 	```%esp```: ESP is the current stack pointer.
+Also, we know that the rule of stack and related ideas are all fixed in CPU design. In other words, once we initialize the values for ```%ebp``` and ```%esp```, the system will automatically deal with the following jobs: adding or removing content from the stack as different function call happens.
