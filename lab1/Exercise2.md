@@ -49,3 +49,7 @@ Please check the **Environment Setting** part of [README.md](https://github.com/
  *  * bootmain() in this file takes over, reads in the kernel and jumps to it.
  **********************************************************************/
  ```
+
+#### Note on ```.S``` file (reference from [webpage](https://stackoverflow.com/questions/10285410/what-are-s-files))
+* .S (capital S) stands for assembly code that must still pass through a pre-processor. That means it can have #include and #define among other macros. It can also be seeing as extension .sx
+* .s (lower s) is pure assembly code that can be compiled into an object.
