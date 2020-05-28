@@ -7,7 +7,8 @@ iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F908D0+07EF08D0 CA00
 Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
 
 
-Booting from Hard Disk..6828 decimal is 15254 octal!
+Booting from Hard Disk..
+6828 decimal is 15254 octal!
 entering test_backtrace 5
 entering test_backtrace 4
 entering test_backtrace 3
@@ -39,4 +40,4 @@ leaving test_backtrace 4
 leaving test_backtrace 5
 Welcome to the JOS kernel monitor!
 Type 'help' for a list of commands.
-qemu-system-i386: terminating on signal 15 from pid 36715 (<unknown process>)
+qemu-system-i386: terminating on signal 15 from pid 49762 (<unknown process>)

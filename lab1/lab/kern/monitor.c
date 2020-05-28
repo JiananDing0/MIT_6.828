@@ -69,14 +69,14 @@ mon_backtrace(int argc, char **argv, struct Trapframe *tf)
 	while (ebp) {
 		// CALL assembly will always push the return address to stack. As a result, we 
 		// can always find it on stack before the function is called.
-		eip = *((uint32_t *)(ebp + 4));
+		eip = *((uint32_t *)(ebp + 1 * sizeof(uint32_t)));
 		// All the arguments are pushed onto the stack right before function is CALLed, 
 		// which means we can find them before the CALL command is executed and push.
-		args[0] = *((uint32_t *)(ebp + 8));
-		args[1] = *((uint32_t *)(ebp + 12));
-		args[2] = *((uint32_t *)(ebp + 16));
-		args[3] = *((uint32_t *)(ebp + 20));
-		args[4] = *((uint32_t *)(ebp + 24));
+		args[0] = *((uint32_t *)(ebp + 2 * sizeof(uint32_t)));
+		args[1] = *((uint32_t *)(ebp + 3 * sizeof(uint32_t)));
+		args[2] = *((uint32_t *)(ebp + 4 * sizeof(uint32_t)));
+		args[3] = *((uint32_t *)(ebp + 5 * sizeof(uint32_t)));
+		args[4] = *((uint32_t *)(ebp + 6 * sizeof(uint32_t)));
 		// Get corresponding debug information from debuginfo_eip() function
 		debuginfo_eip(eip, &info);
 		// Print debug line

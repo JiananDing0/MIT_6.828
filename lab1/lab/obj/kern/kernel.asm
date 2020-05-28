@@ -136,7 +136,7 @@ f01000c0:	e8 61 13 00 00       	call   f0101426 <memset>
 	cons_init();
 f01000c5:	e8 77 04 00 00       	call   f0100541 <cons_init>
 
-	cprintf("6828 decimal is %o octal!\n", 6828);
+	cprintf("\n6828 decimal is %o octal!\n", 6828);
 f01000ca:	c7 44 24 04 ac 1a 00 	movl   $0x1aac,0x4(%esp)
 f01000d1:	00 
 f01000d2:	c7 04 24 b7 18 10 f0 	movl   $0xf01018b7,(%esp)
@@ -188,14 +188,14 @@ f0100117:	8b 45 0c             	mov    0xc(%ebp),%eax
 f010011a:	89 44 24 08          	mov    %eax,0x8(%esp)
 f010011e:	8b 45 08             	mov    0x8(%ebp),%eax
 f0100121:	89 44 24 04          	mov    %eax,0x4(%esp)
-f0100125:	c7 04 24 d2 18 10 f0 	movl   $0xf01018d2,(%esp)
+f0100125:	c7 04 24 d3 18 10 f0 	movl   $0xf01018d3,(%esp)
 f010012c:	e8 51 08 00 00       	call   f0100982 <cprintf>
 	vcprintf(fmt, ap);
 f0100131:	89 5c 24 04          	mov    %ebx,0x4(%esp)
 f0100135:	89 34 24             	mov    %esi,(%esp)
 f0100138:	e8 12 08 00 00       	call   f010094f <vcprintf>
 	cprintf("\n");
-f010013d:	c7 04 24 0e 19 10 f0 	movl   $0xf010190e,(%esp)
+f010013d:	c7 04 24 0f 19 10 f0 	movl   $0xf010190f,(%esp)
 f0100144:	e8 39 08 00 00       	call   f0100982 <cprintf>
 	va_end(ap);
 
@@ -227,7 +227,7 @@ f0100161:	8b 45 0c             	mov    0xc(%ebp),%eax
 f0100164:	89 44 24 08          	mov    %eax,0x8(%esp)
 f0100168:	8b 45 08             	mov    0x8(%ebp),%eax
 f010016b:	89 44 24 04          	mov    %eax,0x4(%esp)
-f010016f:	c7 04 24 ea 18 10 f0 	movl   $0xf01018ea,(%esp)
+f010016f:	c7 04 24 eb 18 10 f0 	movl   $0xf01018eb,(%esp)
 f0100176:	e8 07 08 00 00       	call   f0100982 <cprintf>
 	vcprintf(fmt, ap);
 f010017b:	89 5c 24 04          	mov    %ebx,0x4(%esp)
@@ -235,7 +235,7 @@ f010017f:	8b 45 10             	mov    0x10(%ebp),%eax
 f0100182:	89 04 24             	mov    %eax,(%esp)
 f0100185:	e8 c5 07 00 00       	call   f010094f <vcprintf>
 	cprintf("\n");
-f010018a:	c7 04 24 0e 19 10 f0 	movl   $0xf010190e,(%esp)
+f010018a:	c7 04 24 0f 19 10 f0 	movl   $0xf010190f,(%esp)
 f0100191:	e8 ec 07 00 00       	call   f0100982 <cprintf>
 	va_end(ap);
 }
@@ -735,7 +735,7 @@ f0100499:	75 2a                	jne    f01004c5 <kbd_proc_data+0x104>
 f010049b:	81 fb e9 00 00 00    	cmp    $0xe9,%ebx
 f01004a1:	75 22                	jne    f01004c5 <kbd_proc_data+0x104>
 		cprintf("Rebooting!\n");
-f01004a3:	c7 04 24 04 19 10 f0 	movl   $0xf0101904,(%esp)
+f01004a3:	c7 04 24 05 19 10 f0 	movl   $0xf0101905,(%esp)
 f01004aa:	e8 d3 04 00 00       	call   f0100982 <cprintf>
 }
 
@@ -1021,7 +1021,7 @@ f0100601:	ec                   	in     (%dx),%al
 f0100602:	80 7d e7 00          	cmpb   $0x0,-0x19(%ebp)
 f0100606:	75 0c                	jne    f0100614 <cons_init+0xd3>
 		cprintf("Serial port does not exist!\n");
-f0100608:	c7 04 24 10 19 10 f0 	movl   $0xf0101910,(%esp)
+f0100608:	c7 04 24 11 19 10 f0 	movl   $0xf0101911,(%esp)
 f010060f:	e8 6e 03 00 00       	call   f0100982 <cprintf>
 }
 f0100614:	83 c4 2c             	add    $0x2c,%esp
@@ -1229,23 +1229,23 @@ f0100764:	e8 19 02 00 00       	call   f0100982 <cprintf>
 f0100769:	e9 92 00 00 00       	jmp    f0100800 <mon_backtrace+0xae>
 		// CALL assembly will always push the return address to stack. As a result, we 
 		// can always find it on stack before the function is called.
-		eip = *((uint32_t *)(ebp + 4));
+		eip = *((uint32_t *)(ebp + 1 * sizeof(uint32_t)));
 f010076e:	8b 73 04             	mov    0x4(%ebx),%esi
 		// All the arguments are pushed onto the stack right before function is CALLed, 
 		// which means we can find them before the CALL command is executed and push.
-		args[0] = *((uint32_t *)(ebp + 8));
+		args[0] = *((uint32_t *)(ebp + 2 * sizeof(uint32_t)));
 f0100771:	8b 43 08             	mov    0x8(%ebx),%eax
 f0100774:	89 45 c4             	mov    %eax,-0x3c(%ebp)
-		args[1] = *((uint32_t *)(ebp + 12));
+		args[1] = *((uint32_t *)(ebp + 3 * sizeof(uint32_t)));
 f0100777:	8b 43 0c             	mov    0xc(%ebx),%eax
 f010077a:	89 45 c0             	mov    %eax,-0x40(%ebp)
-		args[2] = *((uint32_t *)(ebp + 16));
+		args[2] = *((uint32_t *)(ebp + 4 * sizeof(uint32_t)));
 f010077d:	8b 43 10             	mov    0x10(%ebx),%eax
 f0100780:	89 45 bc             	mov    %eax,-0x44(%ebp)
-		args[3] = *((uint32_t *)(ebp + 20));
+		args[3] = *((uint32_t *)(ebp + 5 * sizeof(uint32_t)));
 f0100783:	8b 43 14             	mov    0x14(%ebx),%eax
 f0100786:	89 45 b8             	mov    %eax,-0x48(%ebp)
-		args[4] = *((uint32_t *)(ebp + 24));
+		args[4] = *((uint32_t *)(ebp + 6 * sizeof(uint32_t)));
 f0100789:	8b 7b 18             	mov    0x18(%ebx),%edi
 		// Get corresponding debug information from debuginfo_eip() function
 		debuginfo_eip(eip, &info);
