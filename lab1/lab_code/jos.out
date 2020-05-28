@@ -14,6 +14,23 @@ entering test_backtrace 3
 entering test_backtrace 2
 entering test_backtrace 1
 entering test_backtrace 0
+Stack backtrace:
+  ebp f0117f18  eip f0100087  arg 00000000 00000000 00000000 00000000 f010093c
+	     kern/init.c:19: test_backtrace+71
+  ebp f0117f38  eip f0100069  arg 00000000 00000001 f0117f78 00000000 f010093c
+	     kern/init.c:16: test_backtrace+41
+  ebp f0117f58  eip f0100069  arg 00000001 00000002 f0117f98 00000000 f010093c
+	     kern/init.c:16: test_backtrace+41
+  ebp f0117f78  eip f0100069  arg 00000002 00000003 f0117fb8 00000000 f010093c
+	     kern/init.c:16: test_backtrace+41
+  ebp f0117f98  eip f0100069  arg 00000003 00000004 00000000 00000000 00000000
+	     kern/init.c:16: test_backtrace+41
+  ebp f0117fb8  eip f0100069  arg 00000004 00000005 00000000 00010074 00010074
+	     kern/init.c:16: test_backtrace+41
+  ebp f0117fd8  eip f01000ea  arg 00000005 00001aac 00000640 00000000 00000000
+	     kern/init.c:43: i386_init+77
+  ebp f0117ff8  eip f010003e  arg 00119021 00000000 00000000 00000000 00000000
+	     kern/entry.S:83: <unknown>+0
 leaving test_backtrace 0
 leaving test_backtrace 1
 leaving test_backtrace 2
@@ -22,4 +39,4 @@ leaving test_backtrace 4
 leaving test_backtrace 5
 Welcome to the JOS kernel monitor!
 Type 'help' for a list of commands.
-qemu-system-i386: terminating on signal 15 from pid 29678 (<unknown process>)
+qemu-system-i386: terminating on signal 15 from pid 36715 (<unknown process>)
