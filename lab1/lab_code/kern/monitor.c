@@ -24,6 +24,7 @@ struct Command {
 static struct Command commands[] = {
 	{ "help", "Display this list of commands", mon_help },
 	{ "kerninfo", "Display information about the kernel", mon_kerninfo },
+	{ "backtrace", "Display current stack backtrace", mon_backtrace },
 };
 
 /***** Implementations of basic kernel monitor commands *****/
@@ -58,6 +59,32 @@ int
 mon_backtrace(int argc, char **argv, struct Trapframe *tf)
 {
 	// Your code here.
+	// Local variable initialization
+	uint32_t ebp = read_ebp();
+	uint32_t eip;
+	uint32_t args[5];
+	struct Eipdebuginfo info;
+	// Print statements
+	cprintf("Stack backtrace:\n");
+	while (ebp) {
+		// CALL assembly will always push the return address to stack. As a result, we 
+		// can always find it on stack before the function is called.
+		eip = *((uint32_t *)(ebp + 4));
+		// All the arguments are pushed onto the stack right before function is CALLed, 
+		// which means we can find them before the CALL command is executed and push.
+		args[0] = *((uint32_t *)(ebp + 8));
+		args[1] = *((uint32_t *)(ebp + 12));
+		args[2] = *((uint32_t *)(ebp + 16));
+		args[3] = *((uint32_t *)(ebp + 20));
+		args[4] = *((uint32_t *)(ebp + 24));
+		// Get corresponding debug information from debuginfo_eip() function
+		debuginfo_eip(eip, &info);
+		// Print debug line
+		cprintf("  ebp %08x  eip %08x  arg %08x %08x %08x %08x %08x\n", ebp, eip, args[0], args[1], args[2], args[3], args[4]);
+		cprintf("\t%s:%d: %.*s+%d\n", info.eip_file, info.eip_line, info.eip_fn_namelen, info.eip_fn_name, info.eip_line);
+		// Update value of %ebp
+		ebp = (uint32_t)(* (uint32_t *)ebp);
+	}
 	return 0;
 }
 
