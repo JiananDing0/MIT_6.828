@@ -35,4 +35,4 @@ The method seems to be reasonable. However, when we print out the strings that a
 ```
 So the problem is obvious here. The autograder cannot determing our code because there is actually no matching. The line expected to be matched is now ```'Booting from Hard Disk..6828 decimal is 15254 octal!'```, which does not match at all. The solution to this problem is simple, we just add ```\n``` at the front of the string printed at line 36 of ```lab/kern/init.c```. This modification has been updated to my code in ```lab``` part.
 
-#### The rest graders has no problem.
+#### The rest graders has no problem. If you have some problem, make sure your string exactly matches your target.
