@@ -1254,7 +1254,7 @@ f010078f:	89 44 24 04          	mov    %eax,0x4(%esp)
 f0100793:	89 34 24             	mov    %esi,(%esp)
 f0100796:	e8 e1 02 00 00       	call   f0100a7c <debuginfo_eip>
 		// Print debug line
-		cprintf("  ebp %08x  eip %08x  arg %08x %08x %08x %08x %08x\n", ebp, eip, args[0], args[1], args[2], args[3], args[4]);
+		cprintf("  ebp %08x eip %08x args %08x %08x %08x %08x %08x\n", ebp, eip, args[0], args[1], args[2], args[3], args[4]);
 f010079b:	89 7c 24 1c          	mov    %edi,0x1c(%esp)
 f010079f:	8b 45 b8             	mov    -0x48(%ebp),%eax
 f01007a2:	89 44 24 18          	mov    %eax,0x18(%esp)
