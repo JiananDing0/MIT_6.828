@@ -15,7 +15,7 @@ MISSING '6828 decimal is 15254 octal!'
 ```
 It is obvious that there might be some problem with the grading of lab 1. So I went through the autograder code located at ```lab/gradelib.py``` and ```lab/grade-lab1```
 
-#### Matching problem:
+### Problem with grading question 1: matching problem:
 Failing of the first test is because of the function used by testing the correctness of our output, the ```match``` function. It is implemented in ```lab/gradelib.py``` and called in ```lab/grade-lab1```. When we look into class ```Runner``` where the implementation of function ```match``` located in, we can easily figure out the logic of this function:
 1. Divide all output from the booting process by line.
 2. Store the lines of outputs into a list
@@ -34,3 +34,5 @@ The method seems to be reasonable. However, when we print out the strings that a
  ...]
 ```
 So the problem is obvious here. The autograder cannot determing our code because there is actually no matching. The line expected to be matched is now ```'Booting from Hard Disk..6828 decimal is 15254 octal!'```, which does not match at all. The solution to this problem is simple, we just add ```\n``` at the front of the string printed at line 36 of ```lab/kern/init.c```. This modification has been updated to my code in ```lab``` part.
+
+#### The rest graders has no problem.
