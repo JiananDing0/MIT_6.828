@@ -20,3 +20,7 @@ This lab introduces the process of booting a PC. Please make sure you have read 
 ### [Exercise 10](https://github.com/JiananDing0/MIT_6.828/blob/master/lab1/Exercise10.md)
 
 ### [Exercise 11](https://github.com/JiananDing0/MIT_6.828/blob/master/lab1/Exercise11.md)
+
+### [Exercise 12](https://github.com/JiananDing0/MIT_6.828/blob/master/lab1/Exercise12.md)
+
+### [Grading Problems](https://github.com/JiananDing0/MIT_6.828/blob/master/lab1/GradeProb.md)
