@@ -40,6 +40,7 @@ and
 brew unlink gdb
 brew link i386-jos-elf-gdb
 ```
+**NOTICE: you may need to run those commands to switch to i386-jos-elf-gdb everytime you swtich to a new lab**
 
 ### Problems with auto-grading the lab
 The autograder sometimes does not work at all. In order to determine whether it is your own problem or auto-grader's fault, you may check the ```GradeProb.md``` for each lab seperately. If there is no such file exist for that lab, that means the grader has no problem.
