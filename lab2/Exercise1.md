@@ -8,3 +8,8 @@ In terms of initialize the paging and some related functionalities, we have seve
 More elaborted description will be listed below:
 
 #### Step 1: Calculate memory
+
+#### Step 2: 
+
+#### Step 3:
+Information about ```struct PageInfo``` can be found in ```inc/memlayout.h```
