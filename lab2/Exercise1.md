@@ -1,5 +1,4 @@
 ## Exercise 1
-This lab is far more difficult in comparison to the previous one. We need to implement 5 functions in the first exercise.
 
 #### Overall process:
 In terms of initialize the paging and some related functionalities, we have several steps below:
