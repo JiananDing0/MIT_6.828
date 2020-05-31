@@ -102,8 +102,17 @@ boot_alloc(uint32_t n)
 	// to a multiple of PGSIZE.
 	//
 	// LAB 2: Your code here.
-
-	return NULL;
+	assert(n >= 0);
+	// Convert to physical address
+	result = (char *)PADDR(nextfree);
+	// Determine whether it is out of bound
+	if ((physaddr_t)result + n > PGSIZE * npages) {
+		panic("boot_alloc: out of memory!");
+	}
+	// Otherwise, update value of nextfree, no update when n == 0
+	nextfree += ROUNDUP(n, PGSIZE);
+	// Convert back to kernel virtual address and return
+	return KADDR((physaddr_t)result);
 }
 
 // Set up a two-level page table:
@@ -125,7 +134,7 @@ mem_init(void)
 	i386_detect_memory();
 
 	// Remove this line when you're ready to test this function.
-	panic("mem_init: This function is not finished\n");
+	// panic("mem_init: This function is not finished\n");
 
 	//////////////////////////////////////////////////////////////////////
 	// create initial page directory.
@@ -148,7 +157,9 @@ mem_init(void)
 	// array.  'npages' is the number of physical pages in memory.  Use memset
 	// to initialize all fields of each struct PageInfo to 0.
 	// Your code goes here:
-
+	pages = (struct PageInfo *) boot_alloc(sizeof(struct PageInfo) * npages);
+	cprintf("size is %x %x\n", sizeof(struct PageInfo) * npages, npages);
+	memset(pages, 0, sizeof(struct PageInfo) * npages);
 
 	//////////////////////////////////////////////////////////////////////
 	// Now that we've allocated the initial kernel data structures, we set
@@ -252,10 +263,20 @@ page_init(void)
 	// NB: DO NOT actually touch the physical memory corresponding to
 	// free pages!
 	size_t i;
+	// Variable kernBound stores the physical address of the latest nextfree.
+	size_t kernBound = (size_t)PADDR(boot_alloc(0));
+	// Page initialization
 	for (i = 0; i < npages; i++) {
-		pages[i].pp_ref = 0;
-		pages[i].pp_link = page_free_list;
-		page_free_list = &pages[i];
+		// Mark first page, IO hole and first few pages on extend memory as in use.
+		if ((i == 0) || (i >= npages_basemem && i < kernBound / PGSIZE)) {
+			pages[i].pp_ref = 1;
+		}
+		// Rest of memory are free
+		else {
+			pages[i].pp_ref = 0;
+			pages[i].pp_link = page_free_list;
+			page_free_list = &pages[i];
+		}
 	}
 }
 
@@ -275,7 +296,19 @@ struct PageInfo *
 page_alloc(int alloc_flags)
 {
 	// Fill this function in
-	return 0;
+	struct PageInfo *currPage = page_free_list;
+	// Check whether out of free memory
+	if (!page_free_list) {
+		return NULL;
+	}
+	// Set the page without change the reference bit.
+	page_free_list = currPage->pp_link;
+	currPage->pp_link = NULL;
+	if (alloc_flags & ALLOC_ZERO)
+	{
+		memset(page2kva(currPage), 0, PGSIZE);
+	}
+	return currPage;
 }
 
 //
@@ -288,6 +321,12 @@ page_free(struct PageInfo *pp)
 	// Fill this function in
 	// Hint: You may want to panic if pp->pp_ref is nonzero or
 	// pp->pp_link is not NULL.
+	if (pp->pp_ref) {
+		panic("page_free: incorrect reference bit!");
+	}
+	// Update the free list
+	pp->pp_link = page_free_list;
+	page_free_list = pp;
 }
 
 //
