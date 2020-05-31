@@ -75,24 +75,26 @@ Now, we are required to allocate some pages. Add some information to the picture
 | Extended Memory  |
 |                  |
 |                  |
-+------------------+
-|   PageInfo for   |
-|     all pages    |
-+------------------+
-| Page Directories |
-+------------------+  <- 0x00102b84
-|    Kernel Code   |
-+------------------+  <- 0x00100000 (1MB)
-|     BIOS ROM     |
-+------------------+  <- 0x000F0000 (960KB)
-|  16-bit devices, |
-|  expansion ROMs  |
-+------------------+  <- 0x000C0000 (768KB)
-|   VGA Display    |
-+------------------+  <- 0x000A0000 (640KB)
++------------------+  <------------------------
+|   PageInfo for   |                          |
+|     all pages    |                          |
++------------------+                          |
+| Page Directories |                          |
++------------------+  <- 0x00102b84           |
+|    Kernel Code   |                          |
++------------------+  <- 0x00100000 (1MB)     | (This part should be marked as used)
+|     BIOS ROM     |                          |
++------------------+  <- 0x000F0000 (960KB)   |
+|  16-bit devices, |                          |
+|  expansion ROMs  |                          |
++------------------+  <- 0x000C0000 (768KB)   |
+|   VGA Display    |                          |
++------------------+  <- 0x000A0000 (640KB)  <-
 |                  |
 |    Low Memory    |
 |                  |
++------------------+  <- 0x00001000 (4KB)
+|                  |  (This should be marked as used)
 +------------------+  <- 0x00000000
 ```
 It should be not hard by using the function we have implemented in step one. The only thing we want to care about is that the variable ```end[]``` is written in kernel virtual address. We should convert it back to physical address in order to figure out the correct page it belongs to. Also, implementation of ```struct PageInfo``` can be found in ```inc/memlayout.h```.
