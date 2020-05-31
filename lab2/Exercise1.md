@@ -93,9 +93,9 @@ Now, we are required to allocate some pages. Add some information to the picture
 |                  |
 |    Low Memory    |
 |                  |
-+------------------+  <- 0x00001000 (4KB)
-|                  |  (This should be marked as used)
-+------------------+  <- 0x00000000
++------------------+  <- 0x00001000 (4KB) <----
+|                  |                          | (This should be marked as used)
++------------------+  <- 0x00000000  <---------
 ```
 It should be not hard by using the function we have implemented in step one. The only thing we want to care about is that the variable ```end[]``` is written in kernel virtual address. We should convert it back to physical address in order to figure out the correct page it belongs to. Also, implementation of ```struct PageInfo``` can be found in ```inc/memlayout.h```.
 
