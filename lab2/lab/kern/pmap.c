@@ -158,7 +158,6 @@ mem_init(void)
 	// to initialize all fields of each struct PageInfo to 0.
 	// Your code goes here:
 	pages = (struct PageInfo *) boot_alloc(sizeof(struct PageInfo) * npages);
-	cprintf("size is %x %x\n", sizeof(struct PageInfo) * npages, npages);
 	memset(pages, 0, sizeof(struct PageInfo) * npages);
 
 	//////////////////////////////////////////////////////////////////////
@@ -262,9 +261,8 @@ page_init(void)
 	// Change the code to reflect this.
 	// NB: DO NOT actually touch the physical memory corresponding to
 	// free pages!
-	size_t i;
+	size_t i, kernBound = (size_t)PADDR(boot_alloc(0));
 	// Variable kernBound stores the physical address of the latest nextfree.
-	size_t kernBound = (size_t)PADDR(boot_alloc(0));
 	// Page initialization
 	for (i = 0; i < npages; i++) {
 		// Mark first page, IO hole and first few pages on extend memory as in use.
@@ -321,8 +319,8 @@ page_free(struct PageInfo *pp)
 	// Fill this function in
 	// Hint: You may want to panic if pp->pp_ref is nonzero or
 	// pp->pp_link is not NULL.
-	if (pp->pp_ref) {
-		panic("page_free: incorrect reference bit!");
+	if (pp->pp_ref != 0 || pp->pp_link != NULL) {
+		panic("page_free: reference bit is nonzero or link is not NULL!");
 	}
 	// Update the free list
 	pp->pp_link = page_free_list;
@@ -336,7 +334,7 @@ page_free(struct PageInfo *pp)
 void
 page_decref(struct PageInfo* pp)
 {
-	if (--pp->pp_ref == 0)
+	if (--pp->pp_ref == 0) 
 		page_free(pp);
 }
 
@@ -366,6 +364,28 @@ pte_t *
 pgdir_walk(pde_t *pgdir, const void *va, int create)
 {
 	// Fill this function in
+	struct PageInfo *newPage;
+	// First extract the content stored in the page directory, 
+	// it should be a physical address with some PTE information.
+	pte_t * entry;
+	// If the content is not null, convert it into virtual 
+	// address and return
+	if (pgdir[PDX(va)]) {
+		entry = (pte_t *)KADDR(PTE_ADDR(pgdir[PDX(va)]) | PTE_U);
+		return entry;
+	}
+	// Otherwise, intialize a new page if permitted
+	if (create) {
+		newPage = page_alloc(1);
+		if (newPage) {
+			newPage->pp_ref++;
+			// Store correct information
+			pgdir[PDX(va)] = PTE_ADDR(page2pa(newPage));
+			// Convert to virtual address and return
+			entry = (pte_t *)KADDR(PTE_ADDR(pgdir[PDX(va)]) | PTE_U);
+			return entry;
+		}
+	}
 	return NULL;
 }
 
@@ -383,7 +403,9 @@ pgdir_walk(pde_t *pgdir, const void *va, int create)
 static void
 boot_map_region(pde_t *pgdir, uintptr_t va, size_t size, physaddr_t pa, int perm)
 {
-	// Fill this function in
+	// // Fill this function in
+	// pte_t *entry = pgdir_walk(pgdir, (void *)va, true);
+	// entry[PTX(va)] = ( (PGNUM(pa) << PTXSHIFT) | perm | PTE_P );
 }
 
 //
@@ -415,7 +437,45 @@ int
 page_insert(pde_t *pgdir, struct PageInfo *pp, void *va, int perm)
 {
 	// Fill this function in
-	return 0;
+	physaddr_t pageAddr;
+	struct PageInfo *temp, *tempNext;
+	pte_t *ptEntry = (pte_t *)PTE_ADDR(pgdir_walk(pgdir, va, true));
+	if (ptEntry) {
+		// If there is already a page at va, it should be removed
+		if (ptEntry[PTX(va)]) {
+			page_remove(pgdir, va);
+		}
+		// Allocate the page and change reference bit of the page
+		if (pp->pp_ref == 0) {
+			temp = page_free_list;
+			// Find the page from free list and remove it
+			if (temp) {
+				// If the first one is the page.
+				if (temp == pp) {
+					page_free_list = pp->pp_link;
+				}
+				// If the page is in the middle of the list
+				else {
+					tempNext = ((struct PageInfo)(*temp)).pp_link;
+					while (tempNext != NULL) {
+						if (tempNext == pp) {
+							temp->pp_link = tempNext->pp_link;
+							tempNext->pp_link = NULL;
+						}
+						temp = tempNext;
+						tempNext = ((struct PageInfo)(*temp)).pp_link;
+					}
+				}
+			}
+		}
+		pp->pp_ref++;
+		pageAddr = page2pa(pp);
+		pgdir[PDX(va)] = (PTE_ADDR(pgdir[PDX(va)]) | perm | PTE_P);
+		ptEntry[PTX(va)] = (PTE_ADDR(pageAddr) | perm | PTE_P);
+		return 0;
+	}
+	return -E_NO_MEM;
+	
 }
 
 //
@@ -433,6 +493,15 @@ struct PageInfo *
 page_lookup(pde_t *pgdir, void *va, pte_t **pte_store)
 {
 	// Fill this function in
+	physaddr_t physAddr;
+	pte_t *entry = (pte_t *)PTE_ADDR(pgdir_walk(pgdir, va, false));
+	if (entry) {
+		if (pte_store) {
+		 	*pte_store = entry;
+		}
+		physAddr = (physaddr_t)(PTE_ADDR(entry[PTX(va)]) | PGOFF(va));
+		return pa2page(physAddr);
+	}
 	return NULL;
 }
 
@@ -455,6 +524,12 @@ void
 page_remove(pde_t *pgdir, void *va)
 {
 	// Fill this function in
+	// Create a ptep store
+	pte_t *entry;
+	struct PageInfo *pp = page_lookup(pgdir, va, &entry);
+	page_decref(pp);
+	tlb_invalidate(pgdir, va);
+	entry[PTX(va)] = 0;
 }
 
 //
@@ -673,12 +748,11 @@ static physaddr_t
 check_va2pa(pde_t *pgdir, uintptr_t va)
 {
 	pte_t *p;
-
 	pgdir = &pgdir[PDX(va)];
-	if (!(*pgdir & PTE_P))
+	if (!(*pgdir & PTE_P)) 
 		return ~0;
 	p = (pte_t*) KADDR(PTE_ADDR(*pgdir));
-	if (!(p[PTX(va)] & PTE_P))
+	if (!(p[PTX(va)] & PTE_P)) 
 		return ~0;
 	return PTE_ADDR(p[PTX(va)]);
 }

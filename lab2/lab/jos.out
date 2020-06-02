@@ -9,7 +9,10 @@ Press Ctrl-B to configure iPXE (PCI 00:03.0)...
 
 Booting from Hard Disk..6828 decimal is 15254 octal!
 Physical memory: 131072K available, base = 640K, extended = 130432K
-kernel panic at kern/pmap.c:108: boot_alloc: out of memory!
+size is 40000 8000
+check_page_free_list() succeeded!
+check_page_alloc() succeeded!
+kernel panic at kern/pmap.c:718: assertion failed: page_insert(kern_pgdir, pp1, 0x0, PTE_W) < 0
 Welcome to the JOS kernel monitor!
 Type 'help' for a list of commands.
-qemu-system-i386: terminating on signal 15 from pid 69863 (<unknown process>)
+qemu-system-i386: terminating on signal 15 from pid 77278 (<unknown process>)
