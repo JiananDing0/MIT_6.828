@@ -1,7 +1,7 @@
 The reason to keep exercise 2 to 5 together is they are actually talking about the same thing.
-## Exercise 2
+# Exercise 2
 This exercise requires careful read some sections of Intel 80368 Programmer Manual. Here are some important information about these sections:
-* Figure 5-9: Page translation process
+#### Figure 5-9: Page translation process
 ![](image/Figure5-9.png)  
   
 This picture effeciently explain how is a two-level page table looks like. This picture named the 3 components of virtual address as DIR, PAGE and OFFSET. Correspondingly, the first level of the page table is called page directories. The second level is called page tables. The steps of page translation is:  
@@ -9,7 +9,7 @@ This picture effeciently explain how is a two-level page table looks like. This 
 2. Use the PAGE part, which corresponds to 11-20 bits of the linear address to find the physical address without actual offset.  
 3. Add the OFFSET part of our linear address to the physical address without offset we just got in step 2. We get out final physical address.  
   
-* Figure 5-13: More details about the process
+#### Figure 5-13: More details about the process
 ![](image/Figure5-13.png)  
   
 This picture provide more details on this process. Make it easier to implement in code.  
