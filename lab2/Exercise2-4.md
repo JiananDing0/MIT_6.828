@@ -17,3 +17,6 @@ This picture provide more details on this process. Make it easier to implement i
 2. According to the picture, the abbreviation of page table is PTE. We can also relate this information to ```pte_t```, which is another variable type shows up in our lab code.  
 3. Both PDE and PTE are stored as arrays. We can use PDE[index] to find a specific element stored in it. By definition, this "element" should be the address of a page table. We can also do similar thing at page table arrays to find the physical address.  
   
+  
+These information are pretty helpful to our later implementations.
+# Exercise 3
