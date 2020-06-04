@@ -52,7 +52,9 @@ Exercise 1 introduce the idea of paging. In order to do that, we should first ma
 Variable ```end[]``` marks the end of kernel code. However, it is written in kernel virtual address. We should convert it back to physical address to use it. 
 
 ### Exercise 2-4: Build the paging and mapping system:
-As we know, virtual address mapping is **not** to divide the physical address into several parts and mirroring what was happening at low memory into high memory, that action is meaningless. The actual virtual address mapping is to convert the whole physical memory into virtual memory. The size of virtual memory should be the same as physical memory, which is 4GB in this case. With the help of mapping, we want to access or allocate any free page at anytime. In order to do that, we need to understand the following things.
+As we know, virtual address mapping is **not** to divide the physical address into several parts and mirroring what was happening at low memory into high memory. The actual virtual address mapping is to convert the whole physical memory into virtual memory. The size of virtual memory should be the same as physical memory, which is 4GB in this case. With the help of mapping, we want to access or allocate any free page at anytime. In order to do that, we need to understand the following things.
+  
+Before start, we should first know, **xv6 sets up segments to make virtual and linear addresses always identical**.
   
 ##### Figure 5-9: Page translation process
 ![](image/Figure5-9.png)  
@@ -71,3 +73,12 @@ This picture provide more details on this process. Make it easier to implement i
 3. Both PDE and PTE are stored as arrays. We can use PDE[index] to find a specific element stored in it. By definition, this "element" should be the address of a page table. We can also do similar thing at page table arrays to find the physical address.  
 4. Some information not covered in picture: the number of entries in PDE is 1024, which means we have 1024 PTEs, and each PTE will also have 1024 entries, each corresponds to a physical page. So **1024 * 1024 * PGSIZE = 4GB** in total.
 
+### Exercise 5:
+After implementation of functionaloties such as insertion or remove pages, the next thing is to initialize some fixed pages , such as pages to store page directories, page tables, or kernel codes in virtual memory. 
+* **Page directory**: this intialization has been done by provided code ```kern_pgdir[PDX(UVPT)] = PADDR(kern_pgdir) | PTE_U | PTE_P``` at line 151 of ```kern/pmap.c```.
+* **Page table entries**: 1024 pages are required to construct the map. We need to map from ```PADDR(pages)``` to ```UPAGES```. This information can be found in ```inc/memlayout.h```.
+* **Kernel stack**: Kernel stack is the stack only accessible by kernel. We need 8 pages to map the kernel from ```PADDR(bootstack)``` to ```KSTACKTOP - KSTKSIZE```. This information can be found in ```inc/memlayout.h```.
+* **Kernel codes**: Kernel code refers to the code we analyze in lab 1. The lab requires us to allocate ```2^32 - KERNBASE``` bytes of memory from ```KERNBASE``` to ```0xFFFFFFFF (4GB - 1)```. This information can be found in ```inc/memlayout.h```.
+  
+#### Premission of page table entries.
+Based on content of lecture 4, when ```PTE_W``` of the entry is set to 1, kernel will be allowed to access this entry. When ```PTE_U``` of the entry is set to 1, users will be allowed to access the entry. When ```PTE_P``` is set to 1, it represent the information stored in this entry is valid.
