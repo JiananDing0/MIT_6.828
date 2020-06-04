@@ -4383,7 +4383,7 @@ f01025c1:	e8 98 07 00 00       	call   f0102d5e <cprintf>
 	//      (ie. perm = PTE_U | PTE_P)
 	//    - pages itself -- kernel RW, user NONE
 	// Your code goes here:
-	boot_map_region(kern_pgdir, UPAGES, PTSIZE, PADDR(pages), PTE_U | PTE_P);
+	boot_map_region(kern_pgdir, UPAGES, PTSIZE, PADDR(pages), PTE_W);
 f01025c6:	a1 70 f9 11 f0       	mov    0xf011f970,%eax
 #define PADDR(kva) _paddr(__FILE__, __LINE__, kva)
 
@@ -4401,7 +4401,7 @@ f01025de:	c7 44 24 04 b9 00 00 	movl   $0xb9,0x4(%esp)
 f01025e5:	00 
 f01025e6:	c7 04 24 38 49 10 f0 	movl   $0xf0104938,(%esp)
 f01025ed:	e8 a2 da ff ff       	call   f0100094 <_panic>
-f01025f2:	c7 44 24 04 05 00 00 	movl   $0x5,0x4(%esp)
+f01025f2:	c7 44 24 04 02 00 00 	movl   $0x2,0x4(%esp)
 f01025f9:	00 
 	return (physaddr_t)kva - KERNBASE;
 f01025fa:	05 00 00 00 10       	add    $0x10000000,%eax
@@ -4432,8 +4432,8 @@ f010263d:	e8 52 da ff ff       	call   f0100094 <_panic>
 	//       overwrite memory.  Known as a "guard page".
 	//     Permissions: kernel RW, user NONE
 	// Your code goes here:
-	boot_map_region(kern_pgdir, KSTACKTOP - KSTKSIZE, KSTKSIZE, PADDR(bootstack), PTE_W | PTE_P);
-f0102642:	c7 44 24 04 03 00 00 	movl   $0x3,0x4(%esp)
+	boot_map_region(kern_pgdir, KSTACKTOP - KSTKSIZE, KSTKSIZE, PADDR(bootstack), PTE_W);
+f0102642:	c7 44 24 04 02 00 00 	movl   $0x2,0x4(%esp)
 f0102649:	00 
 f010264a:	c7 04 24 00 50 11 00 	movl   $0x115000,(%esp)
 f0102651:	b9 00 80 00 00       	mov    $0x8000,%ecx
@@ -4445,10 +4445,10 @@ f0102660:	e8 28 e9 ff ff       	call   f0100f8d <boot_map_region>
 	// we just set up the mapping anyway.
 	// Permissions: kernel RW, user NONE
 	// Your code goes here:
-	boot_map_region(kern_pgdir, KERNBASE, 2*npages*PGSIZE, 0, PTE_W | PTE_P);
+	boot_map_region(kern_pgdir, KERNBASE, 2*npages*PGSIZE, 0, PTE_W);
 f0102665:	8b 0d 68 f9 11 f0    	mov    0xf011f968,%ecx
 f010266b:	c1 e1 0d             	shl    $0xd,%ecx
-f010266e:	c7 44 24 04 03 00 00 	movl   $0x3,0x4(%esp)
+f010266e:	c7 44 24 04 02 00 00 	movl   $0x2,0x4(%esp)
 f0102675:	00 
 f0102676:	c7 04 24 00 00 00 00 	movl   $0x0,(%esp)
 f010267d:	ba 00 00 00 f0       	mov    $0xf0000000,%edx
