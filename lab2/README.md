@@ -52,4 +52,22 @@ Exercise 1 introduce the idea of paging. In order to do that, we should first ma
 Variable ```end[]``` marks the end of kernel code. However, it is written in kernel virtual address. We should convert it back to physical address to use it. 
 
 ### Exercise 2-4: Build the paging and mapping system:
-As we know, virtual address mapping is **not** to divide the physical address into several parts and mirroring what was happening at low memory into high memory, that action is meaningless. The actual virtual address mapping is to convert the whole physical memory into virtual memory. The size of virtual memory should be the same as physical memory, which is 4GB in this case. We are able to map any free pages at any time. 
+As we know, virtual address mapping is **not** to divide the physical address into several parts and mirroring what was happening at low memory into high memory, that action is meaningless. The actual virtual address mapping is to convert the whole physical memory into virtual memory. The size of virtual memory should be the same as physical memory, which is 4GB in this case. With the help of mapping, we want to access or allocate any free page at anytime. In order to do that, we need to understand the following things.
+  
+##### Figure 5-9: Page translation process
+![](image/Figure5-9.png)  
+  
+This picture effeciently explain how is a two-level page table looks like. This picture named the 3 components of virtual address as DIR, PAGE and OFFSET. Correspondingly, the first level of the page table is called page directories. The second level is called page tables. The steps of page translation is:  
+1. Use the DIR part, which is the first 10 bits of the linear address (also called virtual address in our lab) to find the page table address.  
+2. Use the PAGE part, which corresponds to 11-20 bits of the linear address to find the physical address without actual offset.  
+3. Add the OFFSET part of our linear address to the physical address without offset we just got in step 2. We get out final physical address.  However, this part is not necessary in our lab, because we use pages, and page size is 4096, which means the last 12 bits of all our physical addresses is 0.
+  
+#### Figure 5-13: Page directory and page table structures.
+![](image/Figure5-13.png)  
+  
+This picture provide more details on this process. Make it easier to implement in code.  
+1. According to the picture, the abbreviation of page directory is PDE. We should relate this information to ```pde_t```, which is a variable type frequently shows up in our lab code.  
+2. According to the picture, the abbreviation of page table is PTE. We can also relate this information to ```pte_t```, which is another variable type shows up in our lab code.  
+3. Both PDE and PTE are stored as arrays. We can use PDE[index] to find a specific element stored in it. By definition, this "element" should be the address of a page table. We can also do similar thing at page table arrays to find the physical address.  
+4. Some information not covered in picture: the number of entries in PDE is 1024, which means we have 1024 PTEs, and each PTE will also have 1024 entries, each corresponds to a physical page. So **1024 * 1024 * PGSIZE = 4GB** in total.
+
