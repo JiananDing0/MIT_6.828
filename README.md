@@ -1,4 +1,7 @@
 # MIT_6.828
+### Introduction
+This is my first time taking such a hard course online. And it is also my first time to do github posting. So I will try my best. In this course, I will mainly focus on labs. But I will complete some homeworks that seems interesting.  
+
 ### GitHub Uploading
 First I learned the methods to push new files to GitHub. Several ideas are important to the pushing process.
 
