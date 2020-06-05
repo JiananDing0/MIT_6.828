@@ -81,4 +81,5 @@ After implementation of functionaloties such as insertion or remove pages, the n
 * **Kernel codes**: Kernel code refers to the code we analyze in lab 1. The lab requires us to allocate ```2^32 - KERNBASE``` bytes of memory from ```KERNBASE``` to ```0xFFFFFFFF (4GB - 1)```. This information can be found in ```inc/memlayout.h```.
   
 #### Premission of page table entries.
-Based on content of lecture 4, when ```PTE_W``` of the entry is set to 1, kernel will be allowed to access this entry. When ```PTE_U``` of the entry is set to 1, users will be allowed to access the entry. When ```PTE_P``` is set to 1, it represent the information stored in this entry is valid.
+Based on content of lecture 6, we find the picture below:  
+![](image/Permission.png) 
