@@ -37,6 +37,13 @@ struct pipecmd {
   struct cmd *right; // right side of pipe
 };
 
+struct linecmd {
+  int type;          // ;
+  struct cmd *left;  // left side of line
+  struct cmd *right; // right side of line
+};
+
+
 int fork1(void);  // Fork but exits on failure.
 struct cmd *parsecmd(char*);
 
@@ -48,6 +55,8 @@ runcmd(struct cmd *cmd)
   struct execcmd *ecmd;
   struct pipecmd *pcmd;
   struct redircmd *rcmd;
+  struct linecmd *lcmd;
+  
 
   if(cmd == 0)
     _exit(0);
@@ -61,23 +70,72 @@ runcmd(struct cmd *cmd)
     ecmd = (struct execcmd*)cmd;
     if(ecmd->argv[0] == 0)
       _exit(0);
-    fprintf(stderr, "exec not implemented\n");
+    
     // Your code here ...
+    char str1[] = "/bin/";
+    char str2[] = "/usr/bin/";
+    char *ptr;
+    if (execv(ecmd->argv[0], ecmd->argv)) {
+      ptr = str1;
+      strcat(ptr, ecmd->argv[0]);
+      if (execv(ptr, ecmd->argv)) {
+        ptr = str2;
+        strcat(ptr, ecmd->argv[0]);
+        execv(ptr, ecmd->argv);
+      };
+    }
+    fprintf(stderr, "exec not success\n");
     break;
 
   case '>':
   case '<':
     rcmd = (struct redircmd*)cmd;
-    fprintf(stderr, "redir not implemented\n");
     // Your code here ...
+    close(rcmd->fd);
+    if (open(rcmd->file, rcmd->flags, S_IRWXU | S_IRWXG) < 0) {
+      fprintf(stderr, "open error\n");
+    }
     runcmd(rcmd->cmd);
     break;
 
   case '|':
     pcmd = (struct pipecmd*)cmd;
-    fprintf(stderr, "pipe not implemented\n");
     // Your code here ...
+    pipe(p);
+    if (fork1() == 0) {
+      // This process do not write
+      close(p[1]);
+      // It changes standard input to p[0]
+      close(STDIN_FILENO);
+      dup(p[0]);
+      close(p[0]);
+      // Process the left command
+      runcmd(pcmd->right);
+    }
+    if (fork1() == 0) {
+      // This process do not read
+      close(p[0]);
+      // It changes standard output to p[1]
+      close(STDOUT_FILENO);
+      dup(p[1]);
+      close(p[1]);
+      runcmd(pcmd->left);
+    }
+    close(p[0]);
+    close(p[1]);
+    wait(&r);
+    wait(&r);
     break;
+
+  case ';':
+    lcmd = (struct linecmd*)cmd;
+    if (fork1() == 0) {
+      runcmd(lcmd->left);
+    }
+    wait(&r);
+    runcmd(lcmd->right);
+    break;
+
   }    
   _exit(0);
 }
@@ -166,10 +224,24 @@ pipecmd(struct cmd *left, struct cmd *right)
   return (struct cmd*)cmd;
 }
 
+struct cmd*
+linecmd(struct cmd *left, struct cmd *right)
+{
+  struct pipecmd *cmd;
+
+  cmd = malloc(sizeof(*cmd));
+  memset(cmd, 0, sizeof(*cmd));
+  cmd->type = ';';
+  cmd->left = left;
+  cmd->right = right;
+  return (struct cmd*)cmd;
+};
+
+
 // Parsing
 
 char whitespace[] = " \t\r\n\v";
-char symbols[] = "<|>";
+char symbols[] = "<|>;";
 
 int
 gettoken(char **ps, char *es, char **q, char **eq)
@@ -188,8 +260,7 @@ gettoken(char **ps, char *es, char **q, char **eq)
     break;
   case '|':
   case '<':
-    s++;
-    break;
+  case ';':
   case '>':
     s++;
     break;
@@ -258,6 +329,10 @@ parseline(char **ps, char *es)
 {
   struct cmd *cmd;
   cmd = parsepipe(ps, es);
+  if(peek(ps, es, ";")){
+    gettoken(ps, es, 0, 0);
+    cmd = linecmd(cmd, parseline(ps, es));
+  }
   return cmd;
 }
 
@@ -311,7 +386,7 @@ parseexec(char **ps, char *es)
 
   argc = 0;
   ret = parseredirs(ret, ps, es);
-  while(!peek(ps, es, "|")){
+  while(!peek(ps, es, "|") && !peek(ps, es, ";")){
     if((tok=gettoken(ps, es, &q, &eq)) == 0)
       break;
     if(tok != 'a') {
