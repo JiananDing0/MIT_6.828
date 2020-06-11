@@ -1,0 +1,19 @@
++ ld obj/kern/kernel
+i386-jos-elf-ld: warning: section `.bss' type changed to PROGBITS
++ mk obj/kern/kernel.img
+c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
+
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F908D0+07EF08D0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..6828 decimal is 15254 octal!
+Physical memory: 131072K available, base = 640K, extended = 130432K
+check_page_free_list() succeeded!
+check_page_alloc() succeeded!
+check_page() succeeded!
+kernel panic at kern/pmap.c:774: PADDR called with invalid kva 00000000
+Welcome to the JOS kernel monitor!
+Type 'help' for a list of commands.
+qemu-system-i386: terminating on signal 15 from pid 39910 (<unknown process>)
