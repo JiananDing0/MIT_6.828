@@ -75,7 +75,8 @@ Based on this code, we can imagine the very first GDT is something look like (yo
 |Segment base 15...0|   Limit 15...0.   |
 +---------------------------------------+
 ```
-
+  
+  
 ### System calls, exceptions and interrupts on x86
 #### Interrupt handler:
 * In order to process the system call, programs use ```int``` instruction to generate an interrupt.
@@ -87,3 +88,9 @@ In other words, once we have our ```interrupt handler```, we are able to handle 
 
 ##### Differences between x86 and Xv6 we use in our code:
 In the Xv6, Interrupts 0-31 are defined for software exceptions, like divide errors or attempts to access invalid memory addresses. Xv6 maps the 32 hardware interrupts to the range 32-63 and uses interrupt 64 as the system call interrupt.
+  
+  
+### Use of specific assembly code:
+```
+pushal, popal     - push/pop EAX,EBX,ECX,EDX,ESP,EBP,ESI,EDI
+```
