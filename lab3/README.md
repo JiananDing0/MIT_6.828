@@ -84,7 +84,7 @@ As we know, in order to process the system call or to raise an exception, progra
 **An operating system can use the ```iret``` instruction to return from an ```int``` instruction. It pops the saved values during the int instruction from the stack, and resumes execution at the saved %eip.**
 
 #### To understand IDT
-In the Xv6, Interrupts 0-31 are defined for software exceptions, like divide errors or attempts to access invalid memory addresses. Xv6 maps the 32 hardware interrupts to the range 32-63 and uses interrupt 64 as the system call interrupt.
+The main reason of using segment descriptors is to tell the kernel or the process some information about the code they are going to execute, such as the location of the code, the size or direction of it. IDT, interrupt descriptor table, is constructed by 256 different segment descriptors, and each of them tell us the destination the kernel want to reach when corresponding trap/interrupt/exception happens. What we need to do in this lab is to simply construct a small part of this table by using the imformation provided to us.
   
   
 ### Use of specific assembly code:
