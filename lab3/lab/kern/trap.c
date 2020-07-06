@@ -25,6 +25,30 @@ struct Pseudodesc idt_pd = {
 	sizeof(idt) - 1, (uint32_t) idt
 };
 
+// Function define from trapentry.S
+void T_DIVIDE_handler(); 		// divide error
+void T_DEBUG_handler();			// debug exception
+void T_NMI_handler();			// non-maskable interrupt
+void T_BRKPT_handler();			// breakpoint
+void T_OFLOW_handler();			// overflow
+void T_BOUND_handler();			// bounds check
+void T_ILLOP_handler();			// illegal opcode
+void T_DEVICE_handler();		// device not available
+void T_DBLFLT_handler();		// double fault
+
+void T_TSS_handler();			// invalid task switch segment
+void T_SEGNP_handler();			// segment not present
+void T_STACK_handler();			// stack exception
+void T_GPFLT_handler();			// general protection fault
+void T_PGFLT_handler();			// page fault
+
+void T_FPERR_handler();			// floating point error
+void T_ALIGN_handler();			// aligment check
+void T_MCHK_handler();			// machine check
+void T_SIMDERR_handler();		// SIMD floating point error
+// Add for exercise 7
+void T_SYSCALL_handler();		// System call
+
 
 static const char *trapname(int trapno)
 {
@@ -65,7 +89,29 @@ trap_init(void)
 	extern struct Segdesc gdt[];
 
 	// LAB 3: Your code here.
+	SETGATE(idt[0], 0, GD_KT, T_DIVIDE_handler, 0);			// divide error
+	SETGATE(idt[1], 0, GD_KT, T_DEBUG_handler, 0);			// debug exception
+	SETGATE(idt[2], 0, GD_KT, T_NMI_handler, 0);			// non-maskable interrupt
+	SETGATE(idt[3], 0, GD_KT, T_BRKPT_handler, 3);			// breakpoint
+	SETGATE(idt[4], 0, GD_KT, T_OFLOW_handler, 0);			// overflow
+	SETGATE(idt[5], 0, GD_KT, T_BOUND_handler, 0);			// bounds check
+	SETGATE(idt[6], 0, GD_KT, T_ILLOP_handler, 0);			// illegal opcode
+	SETGATE(idt[7], 0, GD_KT, T_DEVICE_handler, 0);			// device not available
+	SETGATE(idt[8], 0, GD_KT, T_DBLFLT_handler, 0);			// double fault
 
+	SETGATE(idt[10], 0, GD_KT, T_TSS_handler, 0);			// invalid task switch segment
+	SETGATE(idt[11], 0, GD_KT, T_SEGNP_handler, 0);			// segment not present
+	SETGATE(idt[12], 0, GD_KT, T_STACK_handler, 0);			// stack exception
+	SETGATE(idt[13], 0, GD_KT, T_GPFLT_handler, 0);			// general protection fault
+	SETGATE(idt[14], 0, GD_KT, T_PGFLT_handler, 0);			// page fault
+
+	SETGATE(idt[16], 0, GD_KT, T_FPERR_handler, 0);			// floating point error
+	SETGATE(idt[17], 0, GD_KT, T_ALIGN_handler, 0);			// aligment check
+	SETGATE(idt[18], 0, GD_KT, T_MCHK_handler, 0);			// machine check
+	SETGATE(idt[19], 0, GD_KT, T_SIMDERR_handler, 0);		// SIMD floating point error
+	// Add for exercise 7
+	SETGATE(idt[48], 0, GD_KT, T_SYSCALL_handler, 3);		// System call handler
+	
 	// Per-CPU setup 
 	trap_init_percpu();
 }
@@ -144,7 +190,24 @@ trap_dispatch(struct Trapframe *tf)
 {
 	// Handle processor exceptions.
 	// LAB 3: Your code here.
-
+	// Trap 3
+	if (tf->tf_trapno == T_BRKPT) {
+		monitor(tf);
+		return;
+	}
+	// Trap 14
+	if (tf->tf_trapno == T_PGFLT) {
+		page_fault_handler(tf);
+		return;
+	}
+	// Trap 48
+	if (tf->tf_trapno == T_SYSCALL) {
+		int32_t ret;
+		ret = syscall(tf->tf_regs.reg_eax, tf->tf_regs.reg_edx, tf->tf_regs.reg_ecx, 
+			tf->tf_regs.reg_ebx, tf->tf_regs.reg_edi, tf->tf_regs.reg_esi);
+		tf->tf_regs.reg_eax = ret;
+		return;
+	}
 	// Unexpected trap: The user process or the kernel has a bug.
 	print_trapframe(tf);
 	if (tf->tf_cs == GD_KT)

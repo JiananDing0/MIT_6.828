@@ -13,7 +13,15 @@ Physical memory: 131072K available, base = 640K, extended = 130432K
 check_page_free_list() succeeded!
 check_page_alloc() succeeded!
 check_page() succeeded!
-kernel panic at kern/pmap.c:774: PADDR called with invalid kva 00000000
+check_kern_pgdir() succeeded!
+check_page_free_list() succeeded!
+check_page_installed_pgdir() succeeded!
+[00000000] new env 00001000
+Incoming TRAP frame at 0xefffffbc
+Incoming TRAP frame at 0xefffffbc
+[00001000] user_mem_check assertion failure for va f010000c
+[00001000] free env 00001000
+Destroyed the only environment - nothing more to do!
 Welcome to the JOS kernel monitor!
 Type 'help' for a list of commands.
-qemu-system-i386: terminating on signal 15 from pid 41140 (<unknown process>)
+qemu-system-i386: terminating on signal 15 from pid 15468 (<unknown process>)

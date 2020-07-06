@@ -198,7 +198,7 @@ mem_init(void)
 	//    - the new image at UENVS  -- kernel R, user R
 	//    - envs itself -- kernel RW, user NONE
 	// LAB 3: Your code here.
-	boot_map_region(kern_pgdir, UENVS, NENV * sizeof(struct Env), PADDR(envs), PTE_W);
+	boot_map_region(kern_pgdir, UENVS, NENV * sizeof(struct Env), PADDR(envs), PTE_W | PTE_U);
 
 	//////////////////////////////////////////////////////////////////////
 	// Use the physical memory that 'bootstack' refers to as the kernel
@@ -585,7 +585,25 @@ int
 user_mem_check(struct Env *env, const void *va, size_t len, int perm)
 {
 	// LAB 3: Your code here.
-
+	uintptr_t upperBound = (uintptr_t)va + len;
+	if ((uint32_t)va + len > ULIM) {
+		user_mem_check_addr = (uintptr_t)va;
+		return -E_FAULT;
+	}
+	
+	while ((uintptr_t)va < upperBound) {
+		pte_t *pgEntry = pgdir_walk(env->env_pgdir, va, false);
+		if (!pgEntry) {
+			user_mem_check_addr = (uintptr_t)va;
+			return -E_FAULT;
+		}
+		if (!(*pgEntry & perm) || !(*pgEntry & PTE_P)) {
+			user_mem_check_addr = (uintptr_t)va;
+			return -E_FAULT;
+		}
+		va -= (uintptr_t)va % PGSIZE;
+		va += PGSIZE; 
+	}
 	return 0;
 }
 
