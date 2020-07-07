@@ -55,6 +55,19 @@ trap(struct trapframe *tf)
       release(&tickslock);
     }
     lapiceoi();
+    // Add for homework 5
+    if (myproc() != 0 && (tf->cs & 3) == DPL_USER) {
+      // Determine whether alarm syscall is triggered
+      if (myproc()->alarmhandler != 0) {
+        myproc()->alarmcounter++;
+        if (myproc()->alarmcounter == myproc()->alarmticks) {
+          tf->esp -= 4;
+          *(uint *)tf->esp = tf->eip;
+          tf->eip = (uint)(myproc()->alarmhandler);
+          myproc()->alarmcounter = 0;
+        }
+      }
+    }
     break;
   case T_IRQ0 + IRQ_IDE:
     ideintr();
