@@ -66,17 +66,51 @@ _pgfault_upcall:
 	//
 	// LAB 4: Your code here.
 
+	// First, find the location of trap-time eip and store it to a register
+	movl 0x28(%esp), %ebx
+
+	// Second, store the current stack pointer
+	movl %esp, %ecx
+
+	// Third, go back to the loaction where the original stack pointer pointed to.
+	// Notice: the original stack pointer is located at 0x30(%esp)
+	movl 0x30(%ecx), %esp
+
+	// Fourth, store eip at that location
+	pushl %ebx
+
+	// Fifth, replace the original trap-time %esp with the new one, because we can no
+	// longer use arithmetic operations later
+	movl %esp, 0x30(%ecx)
+
+	// Sixth, restore the top of stack
+	movl %ecx, %esp
+
 	// Restore the trap-time registers.  After you do this, you
 	// can no longer modify any general-purpose registers.
 	// LAB 4: Your code here.
+	
+	// First, remove the last two numbers, which are fault_va and error code
+	addl $8, %esp
+
+	// Second, restore all registers
+	popal
 
 	// Restore eflags from the stack.  After you do this, you can
 	// no longer use arithmetic operations or anything else that
 	// modifies eflags.
 	// LAB 4: Your code here.
 
+	// First, ignore the eip
+	addl $4, %esp
+
+	// Second, restore eflags
+	popfl
+
 	// Switch back to the adjusted trap-time stack.
 	// LAB 4: Your code here.
+	popl %esp
 
 	// Return to re-execute the instruction that faulted.
 	// LAB 4: Your code here.
+	ret

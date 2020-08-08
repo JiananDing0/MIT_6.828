@@ -23,8 +23,30 @@ int32_t
 ipc_recv(envid_t *from_env_store, void *pg, int *perm_store)
 {
 	// LAB 4: Your code here.
-	panic("ipc_recv not implemented");
-	return 0;
+	int err;
+	// Map the page at address pg when pg is not null, 
+	// otherwise, we can just pass a value greater than
+	// UTOP.
+	if (!pg) {
+		pg = (void *)(UTOP + 1);
+	}
+	err = sys_ipc_recv(pg);
+	if (!err) {
+		if (from_env_store) {
+			*from_env_store = thisenv->env_ipc_from;
+		}
+		if (perm_store) {
+			*perm_store = thisenv->env_ipc_perm;
+		}
+		return thisenv->env_ipc_value;
+	}
+	if (from_env_store) {
+		*from_env_store = 0;
+	}
+	if (perm_store) {
+		*perm_store = 0;
+	}
+	return err;
 }
 
 // Send 'val' (and 'pg' with 'perm', if 'pg' is nonnull) to 'toenv'.
@@ -39,7 +61,20 @@ void
 ipc_send(envid_t to_env, uint32_t val, void *pg, int perm)
 {
 	// LAB 4: Your code here.
-	panic("ipc_send not implemented");
+	int err = -E_IPC_NOT_RECV;
+	if (!pg) {
+		pg = (void *)(UTOP + 1);
+	}
+	while (err == -E_IPC_NOT_RECV)
+	{
+		err = sys_ipc_try_send(to_env, val, pg, perm);
+		sys_yield();
+	}
+	// On success
+	if (err) {
+		panic("send fail: %e", err);
+	}
+	return;
 }
 
 // Find the first environment of the given type.  We'll use this to
