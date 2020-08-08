@@ -1,0 +1,446 @@
+obj/user/divzero.o: user/divzero.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/kern/trapentry.o: kern/trapentry.S inc/mmu.h inc/memlayout.h \
+ inc/trap.h kern/picirq.h
+obj/lib/spawn.o: lib/spawn.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h \
+ inc/elf.h
+obj/user/idle.o: user/idle.c inc/x86.h inc/types.h inc/lib.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/primes.o: user/primes.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/faultio.o: user/faultio.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h \
+ inc/x86.h
+obj/kern/monitor.o: kern/monitor.c inc/stdio.h inc/stdarg.h inc/string.h \
+ inc/types.h inc/memlayout.h inc/mmu.h inc/assert.h inc/x86.h \
+ kern/console.h kern/monitor.h kern/kdebug.h kern/trap.h inc/trap.h
+obj/fs/fsformat: fs/fsformat.c \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/assert.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/errno.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/errno.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/fcntl.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/fcntl.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/i386/_types.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/Availability.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_o_sync.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_o_dsync.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_s_ifmt.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_timespec.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/machine/types.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/i386/types.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_filesec_t.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include/inttypes.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/inttypes.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_types.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include/stdint.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/stdint.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include/stdarg.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/stdio.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_stdio.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/secure/_stdio.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/secure/_common.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/stdlib.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/i386/signal.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/i386/_mcontext.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/mach/i386/_structs.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/i386/endian.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libkern/i386/_OSByteOrder.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/alloca.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/string.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/strings.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/secure/_strings.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/secure/_string.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/unistd.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_posix_vdisable.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_gid_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_useconds_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/select.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_fd_def.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_time_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_suseconds_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_fd_setsize.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_fd_set.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_fd_clr.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_fd_isset.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_fd_zero.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_fd_copy.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_select.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_uuid_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/gethostuuid.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/mman.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/stat.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_blkcnt_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_blksize_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_ino_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_ino64_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_nlink_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/types.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_char.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_short.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_caddr_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_in_addr_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_in_port_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_key_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_clock_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_cond_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_condattr_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_mutex_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_mutexattr_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_once_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_rwlock_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_rwlockattr_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_key_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_fsblkcnt_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_fsfilcnt_t.h \
+  inc/mmu.h inc/types.h inc/fs.h
+obj/lib/syscall.o: lib/syscall.c inc/syscall.h inc/lib.h inc/types.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/fs.h inc/fd.h inc/args.h
+obj/lib/pipe.o: lib/pipe.c inc/lib.h inc/types.h inc/stdio.h inc/stdarg.h \
+ inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/fs/bc.o: fs/bc.c fs/fs.h inc/fs.h inc/types.h inc/mmu.h inc/lib.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/syscall.h inc/fd.h inc/args.h
+obj/kern/entry.o: kern/entry.S inc/mmu.h inc/memlayout.h inc/trap.h
+obj/lib/args.o: lib/args.c inc/args.h inc/string.h inc/types.h
+obj/user/buggyhello2.o: user/buggyhello2.c inc/lib.h inc/types.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h \
+ inc/args.h
+obj/user/badsegment.o: user/badsegment.c inc/lib.h inc/types.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h \
+ inc/args.h
+obj/lib/fork.o: lib/fork.c inc/string.h inc/types.h inc/lib.h inc/stdio.h \
+ inc/stdarg.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/pingpongs.o: user/pingpongs.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/kern/env.o: kern/env.c inc/x86.h inc/types.h inc/mmu.h inc/error.h \
+ inc/string.h inc/assert.h inc/stdio.h inc/stdarg.h inc/elf.h kern/env.h \
+ inc/env.h inc/trap.h inc/memlayout.h kern/cpu.h kern/pmap.h kern/trap.h \
+ kern/monitor.h kern/sched.h kern/spinlock.h
+obj/kern/mpentry.o: kern/mpentry.S inc/mmu.h inc/memlayout.h
+obj/kern/picirq.o: kern/picirq.c inc/assert.h inc/stdio.h inc/stdarg.h \
+ inc/trap.h inc/types.h kern/picirq.h inc/x86.h
+obj/lib/printfmt.o: lib/printfmt.c inc/types.h inc/stdio.h inc/stdarg.h \
+ inc/string.h inc/error.h
+obj/lib/exit.o: lib/exit.c inc/lib.h inc/types.h inc/stdio.h inc/stdarg.h \
+ inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/fs/fs.o: fs/fs.c inc/string.h inc/types.h inc/partition.h fs/fs.h \
+ inc/fs.h inc/mmu.h inc/lib.h inc/stdio.h inc/stdarg.h inc/error.h \
+ inc/assert.h inc/env.h inc/trap.h inc/memlayout.h inc/syscall.h inc/fd.h \
+ inc/args.h
+obj/lib/panic.o: lib/panic.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/testfdsharing.o: user/testfdsharing.c inc/x86.h inc/types.h \
+ inc/lib.h inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h \
+ inc/env.h inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h \
+ inc/fd.h inc/args.h
+obj/kern/trap.o: kern/trap.c inc/mmu.h inc/types.h inc/x86.h inc/assert.h \
+ inc/stdio.h inc/stdarg.h kern/pmap.h inc/memlayout.h kern/trap.h \
+ inc/trap.h kern/console.h kern/monitor.h kern/env.h inc/env.h kern/cpu.h \
+ kern/syscall.h inc/syscall.h kern/sched.h kern/kclock.h kern/picirq.h \
+ kern/spinlock.h
+obj/user/dumbfork.o: user/dumbfork.c inc/string.h inc/types.h inc/lib.h \
+ inc/stdio.h inc/stdarg.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/evilhello.o: user/evilhello.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/buggyhello.o: user/buggyhello.c inc/lib.h inc/types.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h \
+ inc/args.h
+obj/kern/entrypgdir.o: kern/entrypgdir.c inc/mmu.h inc/types.h \
+ inc/memlayout.h
+obj/user/faultbadhandler.o: user/faultbadhandler.c inc/lib.h inc/types.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h \
+ inc/args.h
+obj/user/testkbd.o: user/testkbd.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/kern/lapic.o: kern/lapic.c inc/types.h inc/memlayout.h inc/mmu.h \
+ inc/trap.h inc/stdio.h inc/stdarg.h inc/x86.h kern/pmap.h inc/assert.h \
+ kern/cpu.h inc/env.h
+obj/user/stresssched.o: user/stresssched.c inc/lib.h inc/types.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h \
+ inc/args.h
+obj/user/testpiperace.o: user/testpiperace.c inc/lib.h inc/types.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h \
+ inc/args.h
+obj/user/yield.o: user/yield.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/testbss.o: user/testbss.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/faultwritekernel.o: user/faultwritekernel.c inc/lib.h \
+ inc/types.h inc/stdio.h inc/stdarg.h inc/string.h inc/error.h \
+ inc/assert.h inc/env.h inc/trap.h inc/memlayout.h inc/mmu.h \
+ inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/kern/string.o: lib/string.c inc/string.h inc/types.h
+obj/user/echo.o: user/echo.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/testfile.o: user/testfile.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/testshell.o: user/testshell.c inc/x86.h inc/types.h inc/lib.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h \
+ inc/args.h
+obj/user/spawnfaultio.o: user/spawnfaultio.c inc/lib.h inc/types.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h \
+ inc/args.h
+obj/user/spawnhello.o: user/spawnhello.c inc/lib.h inc/types.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h \
+ inc/args.h
+obj/user/testpiperace2.o: user/testpiperace2.c inc/lib.h inc/types.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h \
+ inc/args.h
+obj/boot/main.o: boot/main.c inc/x86.h inc/types.h inc/elf.h
+obj/lib/pageref.o: lib/pageref.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/spin.o: user/spin.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/kern/sched.o: kern/sched.c inc/assert.h inc/stdio.h inc/stdarg.h \
+ inc/x86.h inc/types.h kern/spinlock.h kern/env.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h kern/cpu.h kern/pmap.h kern/monitor.h
+obj/lib/console.o: lib/console.c inc/string.h inc/types.h inc/lib.h \
+ inc/stdio.h inc/stdarg.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/faultalloc.o: user/faultalloc.c inc/lib.h inc/types.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h \
+ inc/args.h
+obj/user/primespipe.o: user/primespipe.c inc/lib.h inc/types.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h \
+ inc/args.h
+obj/user/faultreadkernel.o: user/faultreadkernel.c inc/lib.h inc/types.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h \
+ inc/args.h
+obj/kern/init.o: kern/init.c inc/stdio.h inc/stdarg.h inc/string.h \
+ inc/types.h inc/assert.h kern/monitor.h kern/console.h kern/pmap.h \
+ inc/memlayout.h inc/mmu.h kern/kclock.h kern/env.h inc/env.h inc/trap.h \
+ kern/cpu.h kern/trap.h kern/sched.h kern/picirq.h inc/x86.h \
+ kern/spinlock.h
+obj/lib/libmain.o: lib/libmain.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/lib/wait.o: lib/wait.c inc/lib.h inc/types.h inc/stdio.h inc/stdarg.h \
+ inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/kern/kclock.o: kern/kclock.c inc/x86.h inc/types.h kern/kclock.h
+obj/user/testpipe.o: user/testpipe.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/boot/boot.o: boot/boot.S inc/mmu.h
+obj/lib/entry.o: lib/entry.S inc/mmu.h inc/memlayout.h
+obj/lib/fd.o: lib/fd.c inc/lib.h inc/types.h inc/stdio.h inc/stdarg.h \
+ inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/num.o: user/num.c inc/lib.h inc/types.h inc/stdio.h inc/stdarg.h \
+ inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/lib/file.o: lib/file.c inc/fs.h inc/types.h inc/mmu.h inc/string.h \
+ inc/lib.h inc/stdio.h inc/stdarg.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/syscall.h inc/fd.h inc/args.h
+obj/user/testpteshare.o: user/testpteshare.c inc/x86.h inc/types.h \
+ inc/lib.h inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h \
+ inc/env.h inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h \
+ inc/fd.h inc/args.h
+obj/lib/fprintf.o: lib/fprintf.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/faultdie.o: user/faultdie.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/fairness.o: user/fairness.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/hello.o: user/hello.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/faultallocbad.o: user/faultallocbad.c inc/lib.h inc/types.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h \
+ inc/args.h
+obj/fs/serv.o: fs/serv.c inc/x86.h inc/types.h inc/string.h fs/fs.h \
+ inc/fs.h inc/mmu.h inc/lib.h inc/stdio.h inc/stdarg.h inc/error.h \
+ inc/assert.h inc/env.h inc/trap.h inc/memlayout.h inc/syscall.h inc/fd.h \
+ inc/args.h
+obj/lib/pfentry.o: lib/pfentry.S inc/mmu.h inc/memlayout.h
+obj/user/cat.o: user/cat.c inc/lib.h inc/types.h inc/stdio.h inc/stdarg.h \
+ inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/sendpage.o: user/sendpage.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/softint.o: user/softint.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/kern/console.o: kern/console.c inc/x86.h inc/types.h inc/memlayout.h \
+ inc/mmu.h inc/kbdreg.h inc/string.h inc/assert.h inc/stdio.h \
+ inc/stdarg.h kern/console.h kern/trap.h inc/trap.h kern/picirq.h
+obj/lib/pgfault.o: lib/pgfault.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/lib/readline.o: lib/readline.c inc/stdio.h inc/stdarg.h inc/error.h
+obj/user/faultevilhandler.o: user/faultevilhandler.c inc/lib.h \
+ inc/types.h inc/stdio.h inc/stdarg.h inc/string.h inc/error.h \
+ inc/assert.h inc/env.h inc/trap.h inc/memlayout.h inc/mmu.h \
+ inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/icode.o: user/icode.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/faultregs.o: user/faultregs.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/lib/ipc.o: lib/ipc.c inc/lib.h inc/types.h inc/stdio.h inc/stdarg.h \
+ inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/kern/pmap.o: kern/pmap.c inc/x86.h inc/types.h inc/mmu.h inc/error.h \
+ inc/string.h inc/assert.h inc/stdio.h inc/stdarg.h kern/pmap.h \
+ inc/memlayout.h kern/kclock.h kern/env.h inc/env.h inc/trap.h kern/cpu.h
+obj/user/forktree.o: user/forktree.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/kern/mpconfig.o: kern/mpconfig.c inc/types.h inc/string.h \
+ inc/memlayout.h inc/mmu.h inc/x86.h inc/env.h inc/trap.h kern/cpu.h \
+ kern/pmap.h inc/assert.h inc/stdio.h inc/stdarg.h
+obj/kern/readline.o: lib/readline.c inc/stdio.h inc/stdarg.h inc/error.h
+obj/kern/kdebug.o: kern/kdebug.c inc/stab.h inc/types.h inc/string.h \
+ inc/memlayout.h inc/mmu.h inc/assert.h inc/stdio.h inc/stdarg.h \
+ kern/kdebug.h kern/pmap.h kern/env.h inc/env.h inc/trap.h kern/cpu.h
+obj/user/pingpong.o: user/pingpong.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/init.o: user/init.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/lib/printf.o: lib/printf.c inc/types.h inc/stdio.h inc/stdarg.h \
+ inc/lib.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/fs/ide.o: fs/ide.c fs/fs.h inc/fs.h inc/types.h inc/mmu.h inc/lib.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/syscall.h inc/fd.h inc/args.h inc/x86.h
+obj/kern/printf.o: kern/printf.c inc/types.h inc/stdio.h inc/stdarg.h
+obj/user/lsfd.o: user/lsfd.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/faultwrite.o: user/faultwrite.c inc/lib.h inc/types.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h \
+ inc/args.h
+obj/user/ls.o: user/ls.c inc/lib.h inc/types.h inc/stdio.h inc/stdarg.h \
+ inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/user/sh.o: user/sh.c inc/lib.h inc/types.h inc/stdio.h inc/stdarg.h \
+ inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/lib/string.o: lib/string.c inc/string.h inc/types.h
+obj/user/faultnostack.o: user/faultnostack.c inc/lib.h inc/types.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h \
+ inc/args.h
+obj/kern/syscall.o: kern/syscall.c inc/x86.h inc/types.h inc/error.h \
+ inc/string.h inc/assert.h inc/stdio.h inc/stdarg.h kern/env.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h kern/cpu.h kern/pmap.h kern/trap.h \
+ kern/syscall.h inc/syscall.h kern/console.h kern/sched.h
+obj/kern/printfmt.o: lib/printfmt.c inc/types.h inc/stdio.h inc/stdarg.h \
+ inc/string.h inc/error.h
+obj/fs/test.o: fs/test.c inc/x86.h inc/types.h inc/string.h fs/fs.h \
+ inc/fs.h inc/mmu.h inc/lib.h inc/stdio.h inc/stdarg.h inc/error.h \
+ inc/assert.h inc/env.h inc/trap.h inc/memlayout.h inc/syscall.h inc/fd.h \
+ inc/args.h
+obj/user/breakpoint.o: user/breakpoint.c inc/lib.h inc/types.h \
+ inc/stdio.h inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h \
+ inc/trap.h inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h \
+ inc/args.h
+obj/user/faultread.o: user/faultread.c inc/lib.h inc/types.h inc/stdio.h \
+ inc/stdarg.h inc/string.h inc/error.h inc/assert.h inc/env.h inc/trap.h \
+ inc/memlayout.h inc/mmu.h inc/syscall.h inc/fs.h inc/fd.h inc/args.h
+obj/kern/spinlock.o: kern/spinlock.c inc/types.h inc/assert.h inc/stdio.h \
+ inc/stdarg.h inc/x86.h inc/memlayout.h inc/mmu.h inc/string.h kern/cpu.h \
+ inc/env.h inc/trap.h kern/spinlock.h kern/kdebug.h
