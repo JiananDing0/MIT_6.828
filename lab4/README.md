@@ -28,3 +28,39 @@ space. My options were limited. A zero-length array was a perfect solution.
 ```
 
 ##### Answer to question 1 and 2
+* Question 1
+In ```boot/boot.s```, we have:
+```
+  # Set up the important data segment registers (DS, ES, SS).
+  xorw    %ax,%ax             # Segment number zero
+  movw    %ax,%ds             # -> Data Segment
+  movw    %ax,%es             # -> Extra Segment
+  movw    %ax,%ss             # -> Stack Segment
+
+  # Enable A20:
+  # ....
+  # A bunch of code skipped
+
+  # Switch from real to protected mode, using a bootstrap GDT
+  # and segment translation that makes virtual addresses 
+  # identical to their physical addresses, so that the 
+  # effective memory map does not change during the switch.
+  lgdt    gdtdesc
+  movl    %cr0, %eax
+  orl     $CR0_PE_ON, %eax
+  movl    %eax, %cr0
+ ```
+ In ```kern/mpentry.S```, we have:
+ ```
+  xorw    %ax, %ax
+  movw    %ax, %ds
+	movw    %ax, %es
+	movw    %ax, %ss
+
+	lgdt    MPBOOTPHYS(gdtdesc)
+	movl    %cr0, %eax
+	orl     $CR0_PE, %eax
+	movl    %eax, %cr0
+ ```
+ So we can easily figure out that the macro is designed to calculate the new global descriptor table address.
+ 
