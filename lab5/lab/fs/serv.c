@@ -214,6 +214,7 @@ serve_read(envid_t envid, union Fsipc *ipc)
 		cprintf("serve_read %08x %08x %08x\n", envid, req->req_fileid, req->req_n);
 
 	// Lab 5: Your code here:
+	for (int i = 0; i < req->req_n; i++) {}
 	return 0;
 }
 

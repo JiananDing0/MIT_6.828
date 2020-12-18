@@ -341,18 +341,16 @@ f010024b:	8d 04 90             	lea    (%eax,%edx,4),%eax
 f010024e:	8d 04 85 20 20 33 f0 	lea    -0xfccdfe0(,%eax,4),%eax
 f0100255:	39 c3                	cmp    %eax,%ebx
 f0100257:	0f 82 71 ff ff ff    	jb     f01001ce <i386_init+0xa0>
-	// Starting non-boot CPUs
-	boot_aps();
+	// ENV_CREATE(user_yield, ENV_TYPE_USER);
+	// ENV_CREATE(user_yield, ENV_TYPE_USER);
+	// ENV_CREATE(user_yield, ENV_TYPE_USER);
 
-#if defined(TEST)
-	// Don't touch -- used by grading script!
-	ENV_CREATE(TEST, ENV_TYPE_USER);
+	// Tests for lab 4 exercise 14
+	ENV_CREATE(user_primes, ENV_TYPE_USER);
 f010025d:	c7 44 24 04 00 00 00 	movl   $0x0,0x4(%esp)
 f0100264:	00 
 f0100265:	c7 04 24 90 e5 31 f0 	movl   $0xf031e590,(%esp)
 f010026c:	e8 af 35 00 00       	call   f0103820 <env_create>
-	// Tests for lab 4 exercise 14
-	ENV_CREATE(user_primes, ENV_TYPE_USER);
 #endif // TEST*
 
 	// Schedule and run the first user environment!

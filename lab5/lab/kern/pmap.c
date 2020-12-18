@@ -632,7 +632,7 @@ mmio_map_region(physaddr_t pa, size_t size)
 	// Your code here:
 	// Round size up
 	size = (size + PGSIZE - 1) & ~(0xfff);
-	if (base + size >  MMIOLIM) {
+	if (base + size > MMIOLIM) {
 		panic("mmio_map_region: unable to map region");
 	}
 	boot_map_region(kern_pgdir, base, size, pa, PTE_PCD|PTE_PWT|PTE_W);

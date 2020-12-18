@@ -1,0 +1,57 @@
++ ld obj/kern/kernel
++ mk obj/kern/kernel.img
+c[?7l[2J[0mSeaBIOS (version rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org)
+
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F908D0+07EF08D0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..6828 decimal is XXX octal!
+Physical memory: 131072K available, base = 640K, extended = 130432K
+check_page_free_list() succeeded!
+check_page_alloc() succeeded!
+check_page() succeeded!
+check_kern_pgdir() succeeded!
+check_page_free_list() succeeded!
+check_page_installed_pgdir() succeeded!
+SMP: CPU 0 found 1 CPU(s)
+enabled interrupts: 1 2 4
+icode startup
+icode: open /motd
+FS is running
+FS can do I/O
+Device 1 presence: 1
+block cache is good
+superblock is good
+bitmap is good
+alloc_block is good
+file_open is good
+file_get_block is good
+file_flush is good
+file_truncate is good
+file rewrite is good
+icode: read /motd
+icode: close /motd
+[00001000] user panic in fs at fs/bc.c:39: page fault in FS: eip 00803424, va ef001c0c, err 0005
+Welcome to the JOS kernel monitor!
+Type 'help' for a list of commands.
+TRAP frame at 0xf02a8000 from CPU 0
+  edi  0x00000400
+  esi  0xeebfffa4
+  ebp  0xeebfff90
+  oesp 0xf022dfdc
+  ebx  0x00803e9d
+  edx  0xeebffe38
+  ecx  0x00000001
+  eax  0x00000001
+  es   0x----0023
+  ds   0x----0023
+  trap 0x00000003 Breakpoint
+  err  0x00000000
+  eip  0x00801cf4
+  cs   0x----001b
+  flag 0x00003292
+  esp  0xeebfff68
+  ss   0x----0023
+qemu-system-i386: terminating on signal 15 from pid 43341 (<unknown process>)
